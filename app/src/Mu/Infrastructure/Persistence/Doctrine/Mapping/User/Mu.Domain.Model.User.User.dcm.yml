@@ -1,0 +1,39 @@
+Mu\Domain\Model\User\User:
+  type: entity
+  table: users
+  id:
+    id:
+      type: user_id
+      generator:
+        strategy: NONE
+  embedded:
+    name:
+      class: Mu\Domain\Model\User\Name
+      columnPrefix: false
+    lastName:
+      class: Mu\Domain\Model\User\LastName
+      columnPrefix: false
+    email:
+      class: Mu\Domain\Model\User\Email
+      columnPrefix: false
+    password:
+      class: Mu\Domain\Model\User\Password
+      columnPrefix: false
+    status:
+      class: Mu\Domain\Model\User\Status
+      columnPrefix: false
+  fields:
+    updatedAt:
+      type: datetimetz
+      column: updated_at
+    createdAt:
+      type: datetimetz
+      column: created_at
+  manyToOne:
+    role:
+      targetEntity: Mu\Domain\Model\Role\Role
+      fetch: EXTRA_LAZY
+      joinColumn:
+        role_id:
+          referencedColumnName: id
+          nullable: false

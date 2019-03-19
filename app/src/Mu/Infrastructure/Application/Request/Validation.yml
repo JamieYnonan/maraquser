@@ -1,0 +1,14 @@
+user:
+  properties:
+    email:
+      - NotBlank: ~
+      - Type:
+        type: integer
+    password:
+      - NotBlank: ~
+      - Type:
+        type: string
+    role_id:
+      - NotBlank: ~
+      - Type:
+        type: string

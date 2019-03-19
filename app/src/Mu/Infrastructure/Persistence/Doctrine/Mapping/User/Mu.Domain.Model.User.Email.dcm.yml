@@ -1,0 +1,8 @@
+Mu\Domain\Model\User\Email:
+  type: embeddable
+  fields:
+    value:
+      type: string
+      column: email
+      length: 50
+      unique: true

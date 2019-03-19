@@ -1,0 +1,27 @@
+Mu\Domain\Model\User\User:
+  attributes:
+    id:
+      groups: ['user_v1']
+    name:
+      groups: ['user_v1', 'notification']
+    lastName:
+      groups: ['user_v1', 'notification']
+    email:
+      groups: ['user_v1', 'notification']
+    status:
+      groups: ['user_v1']
+
+Mu\Domain\Model\Role\Role:
+  attributes:
+    id:
+      groups: ['role_v1']
+    name:
+      groups: ['role_v1']
+    description:
+      groups: ['role_v1']
+    status:
+      groups: ['role_v1']
+    updatedAt:
+      groups: ['role_v1']
+    createdAt:
+      groups: ['role_v1']

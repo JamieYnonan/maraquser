@@ -1,0 +1,62 @@
+imports:
+  - { resource: '/app/config/*.yaml' }
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Mu\:
+    resource: '../../../Mu/*'
+    exclude: '../../../Mu/{Domain/Model/*,Infrastructure/Api/Custom/Public/*,Infrastructure/Api/Custom/Controllers/*,Application/**/*Handler,Application/**/*Command.php,Application/**/*Query.php}'
+
+  Mu\Application\:
+    resource: '../../../Mu/Application/**/*Handler.php'
+    public: true
+
+  Mu\Domain\Model\:
+    resource: '../../../Mu/Domain/Model/**/{*Service.php, *Event.php}'
+    public: true
+
+  Mu\Domain\Listener\:
+    resource: '../../../Mu/Domain/Listener/*'
+    public: true
+
+  Mu\Domain\Model\Permission\PermissionRepository: '@Mu\Infrastructure\Domain\Model\Permission\DoctrinePermissionRepository'
+  Mu\Domain\Model\User\UserRepository: '@Mu\Infrastructure\Domain\Model\User\DoctrineUserRepository'
+  Mu\Domain\Model\Role\RoleRepository: '@Mu\Infrastructure\Domain\Model\Role\DoctrineRoleRepository'
+
+  Mu\Infrastructure\Api\Custom\Controllers\:
+    resource: '../../../Mu/Infrastructure/Api/Custom/Controllers/*'
+    public: true
+
+  Mu\Infrastructure\Application\Authorization\Jwt\FirebaseToken:
+    arguments: ['%token.algorithm%', '%token.path_key%']
+
+  Symfony\Component\Serializer\Serializer:
+    factory: 'Mu\Infrastructure\Serializer\SerializerFactory:build'
+
+  League\Tactician\CommandBus:
+    factory: 'Mu\Infrastructure\CommandBus\CommandBusFactory:build'
+
+  Doctrine\ORM\EntityManager:
+    factory: 'Mu\Infrastructure\Persistence\Doctrine\EntityManagerFactory:build'
+    arguments: ['%db%', '%app.debug%']
+    public: true
+
+  Doctrine\ORM\EntityManagerInterface: '@Doctrine\ORM\EntityManager'
+
+  PhpAmqpLib\Connection\AMQPStreamConnection:
+    factory: 'Mu\Infrastructure\Notification\Rabbit\AMQPFactory:build'
+    arguments: ['%rabbit%']
+
+  Mu\Domain\Listener\User\EmailChangedNotificationListener:
+    arguments:
+      $notification: '@Mu\Infrastructure\Notification\Rabbit\User\ChangeMailNotification'
+    public: true
+
+  Mu\Domain\Listener\User\WelcomeNotificationUserCreatedListener:
+    arguments:
+      $notification: '@Mu\Infrastructure\Notification\Rabbit\User\WelcomeNotification'
+    public: true

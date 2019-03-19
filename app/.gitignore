@@ -1,0 +1,11 @@
+vendor/
+.idea
+config/*.yml
+!config/.*.yml
+var/
+build
+composer.lock
+out
+gen
+composer.phar
+*.iml

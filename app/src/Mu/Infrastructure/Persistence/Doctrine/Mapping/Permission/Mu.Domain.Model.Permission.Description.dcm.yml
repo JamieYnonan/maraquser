@@ -1,0 +1,7 @@
+Mu\Domain\Model\Permission\Description:
+  type: embeddable
+  fields:
+    value:
+      type: string
+      column: description
+      nullable: true

@@ -1,0 +1,7 @@
+Mu\Domain\Model\User\LastName:
+  type: embeddable
+  fields:
+    value:
+      type: string
+      column: last_name
+      length: 50

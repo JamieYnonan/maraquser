@@ -1,0 +1,7 @@
+Mu\Domain\Model\User\Name:
+  type: embeddable
+  fields:
+    value:
+      type: string
+      column: name
+      length: 50

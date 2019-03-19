@@ -1,0 +1,25 @@
+Mu\Domain\Model\Permission\Permission:
+  type: entity
+  table: permissions
+  id:
+    id:
+      type: permission_id
+      generator:
+        strategy: NONE
+  embedded:
+    name:
+      class: Mu\Domain\Model\Permission\Name
+      columnPrefix: false
+    description:
+      class: Mu\Domain\Model\Permission\Description
+      columnPrefix: false
+    status:
+      class: Mu\Domain\Model\Permission\Status
+      columnPrefix: false
+  fields:
+    updatedAt:
+      type: datetimetz
+      column: updated_at
+    createdAt:
+      type: datetimetz
+      column: created_at

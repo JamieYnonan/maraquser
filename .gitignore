@@ -1,0 +1,6 @@
+.idea
+docker/*
+!docker/docker-compose.yml
+!docker/application
+!docker/cli
+!docker/config

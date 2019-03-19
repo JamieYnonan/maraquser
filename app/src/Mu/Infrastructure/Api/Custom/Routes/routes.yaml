@@ -1,0 +1,64 @@
+permission_create:
+    path: /v1/permissions
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Permission\Create
+    methods: [POST]
+
+permission_show:
+    path: /v1/permissions/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Permission\Show
+    methods: [GET]
+
+permission_update:
+    path: /v1/permissions/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Permission\Update
+    methods: [PUT]
+
+role_create:
+    path: /v1/roles
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Create
+    methods: [POST]
+
+role_show:
+    path: /v1/roles/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Show
+    methods: [GET]
+
+role_update:
+    path: /v1/roles/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Update
+    methods: [PUT]
+
+role_patch:
+    path: /v1/roles/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Patch
+    methods: [POST]
+
+role_delete:
+    path: /v1/roles
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Delete
+    methods: [DELETE]
+
+user_create:
+    path: /v1/users
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Create
+    methods: [POST]
+
+user_show:
+    path: /v1/users/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Show
+    methods: [GET]
+
+user_update:
+    path: /v1/users/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Update
+    methods: [PUT]
+
+user_patch:
+    path: /v1/users/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Patch
+    methods: [PATCH]
+
+user_delete:
+    path: /v1/permissions
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Delete
+    methods: [DELETE]

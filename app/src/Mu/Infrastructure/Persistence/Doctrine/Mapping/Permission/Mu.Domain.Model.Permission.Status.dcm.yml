@@ -1,0 +1,9 @@
+Mu\Domain\Model\Permission\Status:
+  type: embeddable
+  fields:
+    value:
+      type: smallint
+      column: status
+      options:
+        unsigned: true
+        default: 0

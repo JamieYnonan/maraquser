@@ -1,0 +1,8 @@
+Mu\Domain\Model\Permission\Name:
+  type: embeddable
+  fields:
+    value:
+      type: string
+      column: name
+      length: 50
+      unique: true

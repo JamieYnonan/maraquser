@@ -1,0 +1,37 @@
+Mu\Domain\Model\Role\Role:
+  type: entity
+  table: roles
+  id:
+    id:
+      type: role_id
+      generator:
+        strategy: NONE
+  embedded:
+    name:
+      class: Mu\Domain\Model\Role\Name
+      columnPrefix: false
+    description:
+      class: Mu\Domain\Model\Role\Description
+      columnPrefix: false
+    status:
+      class: Mu\Domain\Model\Role\Status
+      columnPrefix: false
+  fields:
+    updatedAt:
+      type: datetimetz
+      column: updated_at
+    createdAt:
+      type: datetimetz
+      column: created_at
+  manyToMany:
+    permissions:
+      targetEntity: Mu\Domain\Model\Permission\Permission
+      fetch: EXTRA_LAZY
+      joinTable:
+        name: role_permissions
+        joinColumns:
+          role_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          permission_id:
+            referencedColumnName: id
