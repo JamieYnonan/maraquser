@@ -41,6 +41,7 @@ class PermissionServiceTest extends TestCase
 
     /**
      * @expectedException \Mu\Domain\Model\Permission\PermissionException
+     * @expectedExceptionMessage The permission "name" already exists.
      */
     public function testNotExistsNameOrFailException()
     {
@@ -62,6 +63,7 @@ class PermissionServiceTest extends TestCase
 
     /**
      * @expectedException \Mu\Domain\Model\Permission\PermissionException
+     * @expectedExceptionMessage The permission does not exists.
      */
     public function testByIdOrFailException()
     {

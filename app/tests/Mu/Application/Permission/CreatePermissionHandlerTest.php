@@ -62,7 +62,6 @@ class CreatePermissionHandlerTest extends TestCase
 
     /**
      * @expectedException \Mu\Domain\Model\Permission\PermissionException
-     * @expectedExceptionMessage The permission "name" already exists.
      */
     public function testHandleExistsNameException()
     {

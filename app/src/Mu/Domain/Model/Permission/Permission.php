@@ -17,7 +17,7 @@ class Permission
     public function __construct(
         PermissionId $id,
         Name $name,
-        ?Description $description
+        ?Description $description = null
     ) {
         $this->id = $id;
         $this->name = $name;

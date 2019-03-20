@@ -14,7 +14,7 @@ final class DeactivatePermissionHandler
         $this->permissionService = $permissionService;
     }
 
-    public function handle(UpdatePermissionCommand $command): void
+    public function handle(DeactivatePermissionCommand $command): void
     {
         $permission = $this->permissionService->byIdOrFail(
             new PermissionId($command->permissionId())

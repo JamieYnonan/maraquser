@@ -11,7 +11,7 @@ final class UpdatePermissionCommand
     public function __construct(
         string $permissionId,
         string $name,
-        ?string $description
+        ?string $description = null
     ) {
         $this->permissionId = $permissionId;
         $this->name = $name;
