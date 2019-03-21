@@ -21,13 +21,13 @@ class Role
     public function __construct(
         RoleId $id,
         Name $name,
-        ?Description $description
+        ?Description $description = null
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->permissions = [];
-        $this->active();
+        $this->activate();
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -98,23 +98,14 @@ class Role
         unset($this->permissions[$position]);
     }
 
-    public function active(): void
+    public function activate(): void
     {
         $this->status = Status::active();
     }
 
-    public function inactive(): void
+    public function deactivate(): void
     {
         $this->status = Status::inactive();
-    }
-
-    public function delete(): void
-    {
-        if ($this->status->isDelete()) {
-            return;
-        }
-
-        $this->status = Status::delete();
     }
 
     public function isActive(): bool
@@ -125,11 +116,6 @@ class Role
     public function isInactive(): bool
     {
         return $this->status->isInactive();
-    }
-
-    public function isDelete(): bool
-    {
-        return $this->status->isDelete();
     }
 
     public function changeName(Name $name): void

@@ -5,7 +5,7 @@ namespace Mu\Application\Role;
 use Mu\Domain\Model\Role\RoleId;
 use Mu\Domain\Model\Role\RoleService;
 
-final class DeleteRoleHandler
+final class DeactivateRoleHandler
 {
     private $roleService;
 
@@ -14,11 +14,11 @@ final class DeleteRoleHandler
         $this->roleService = $roleService;
     }
 
-    public function handler(DeleteRoleCommand $command): void
+    public function handler(DeactivateRoleCommand $command): void
     {
         $role = $this->roleService->byIdOrFail(new RoleId($command->roleId()));
+        $role->deactivate();
 
-        $role->delete();
         $this->roleService->save($role);
     }
 }

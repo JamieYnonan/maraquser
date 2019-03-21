@@ -2,7 +2,7 @@
 
 namespace Mu\Application\Role;
 
-final class DeleteRoleCommand
+final class DeactivateRoleCommand
 {
     private $roleId;
 

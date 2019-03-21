@@ -32,11 +32,4 @@ class RoleService
     {
         $this->roleRepository->save($role);
     }
-
-    public function delete(RoleId $roleId): void
-    {
-        $role = $this->byIdOrFail($roleId);
-        $role->delete();
-        $this->roleRepository->save($role);
-    }
 }
