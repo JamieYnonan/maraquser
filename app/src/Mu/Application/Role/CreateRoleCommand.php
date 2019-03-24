@@ -11,7 +11,7 @@ final class CreateRoleCommand
     public function __construct(
         string $roleId,
         string $name,
-        ?string $description
+        ?string $description = null
     ) {
         $this->roleId = $roleId;
         $this->name = $name;
