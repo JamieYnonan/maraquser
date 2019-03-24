@@ -71,7 +71,6 @@ class CreatePermissionHandlerTest extends TestCase
             );
 
         $handler = $this->createHandler();
-
-        $this->assertNull($handler->handle($this->command));
+        $handler->handle($this->command);
     }
 }
