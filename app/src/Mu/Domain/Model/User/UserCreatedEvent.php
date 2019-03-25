@@ -14,7 +14,7 @@ final class UserCreatedEvent extends Event
     public function __construct(UserId $userId)
     {
         $this->userId = $userId;
-        $this->occurredOn = (new \DateTimeImmutable())->getTimestamp();
+        $this->occurredOn = new \DateTimeImmutable();
 
         parent::__construct(self::EVENT_NAME);
     }
@@ -22,5 +22,10 @@ final class UserCreatedEvent extends Event
     public function userId(): UserId
     {
         return $this->userId;
+    }
+
+    public function occurredOn(): \DateTimeImmutable
+    {
+        return $this->occurredOn;
     }
 }

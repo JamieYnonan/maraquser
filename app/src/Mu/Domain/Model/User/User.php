@@ -31,7 +31,7 @@ class User
         $this->email = $email;
         $this->password = $password;
         $this->changeRole($role);
-        $this->active();
+        $this->activate();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTime();
 
@@ -100,7 +100,7 @@ class User
 
         $this->status = Status::deleted();
         DomainEventGenerator::instance()
-            ->addEvent(new UserDeletedEvent($this->id->value()));
+            ->addEvent(new UserDeletedEvent($this->id()));
     }
 
     public function activate(): void

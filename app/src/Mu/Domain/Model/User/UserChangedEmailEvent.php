@@ -9,16 +9,23 @@ final class UserChangedEmailEvent extends Event
     const EVENT_NAME = 'user.changed';
 
     private $userId;
+    private $occurredOn;
 
-    public function __construct(string $userId)
+    public function __construct(UserId $userId)
     {
         $this->userId = $userId;
+        $this->occurredOn = new \DateTimeImmutable();
 
         parent::__construct(self::EVENT_NAME);
     }
 
-    public function userId(): string
+    public function userId(): UserId
     {
         return $this->userId;
+    }
+
+    public function occurredOn(): \DateTimeImmutable
+    {
+        return $this->occurredOn;
     }
 }

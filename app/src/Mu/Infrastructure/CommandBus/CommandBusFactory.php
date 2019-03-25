@@ -36,7 +36,6 @@ use Mu\Domain\Listener\User\WelcomeNotificationUserCreatedListener;
 use Mu\Domain\Model\User\UserChangedEmailEvent;
 use Mu\Domain\Model\User\UserCreatedEvent;
 use Mu\Domain\Model\User\UserDeletedEvent;
-use Mu\Domain\Model\User\UserUpdatedEvent;
 use Mu\Infrastructure\Domain\Event\DomainEventListenerMiddleware;
 use Psr\Container\ContainerInterface;
 
@@ -58,7 +57,6 @@ final class CommandBusFactory
                                 WelcomeNotificationUserCreatedListener::class
                             )
                         ],
-                        UserUpdatedEvent::EVENT_NAME => [],
                         UserDeletedEvent::EVENT_NAME => [],
                         UserChangedEmailEvent::EVENT_NAME => [
                             $container->get(
