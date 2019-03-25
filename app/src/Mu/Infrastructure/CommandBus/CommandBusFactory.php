@@ -83,7 +83,7 @@ final class CommandBusFactory
             array_merge(
                 self::commandHandlerPermission($container),
                 self::commandHandlerRole($container),
-                self::commandHanlderUser($container)
+                self::commandHandlerUser($container)
             )
         );
     }
@@ -120,7 +120,7 @@ final class CommandBusFactory
         ];
     }
     
-    private static function commandHanlderUser(
+    private static function commandHandlerUser(
         ContainerInterface $container
     ): array {
         return [
