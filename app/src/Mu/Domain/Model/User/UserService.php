@@ -50,6 +50,10 @@ final class UserService
             throw UserException::invalidUserOrPassword();
         }
 
+        if ($user->isActive() !== true) {
+            throw UserException::invalidUserOrPassword();
+        }
+
         return $user;
     }
 
