@@ -103,7 +103,7 @@ class User
             ->addEvent(new UserDeletedEvent($this->id->value()));
     }
 
-    public function active(): void
+    public function activate(): void
     {
         $this->status = Status::active();
     }
@@ -111,6 +111,11 @@ class User
     public function isDeleted(): bool
     {
         return $this->status->isDeleted();
+    }
+
+    public function deactivate(): void
+    {
+        $this->status = Status::inactive();
     }
 
     public function isInactive(): bool
