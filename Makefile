@@ -35,13 +35,28 @@ composer:
 		-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
 		bash -c "composer ${COMMAND}"
 
-test:
+full_tests:
 	rm -Rf $$PWD/app/build; \
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
     		-v $$PWD/app:/app \
     		-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
     		bash -c "composer test && composer infection"; \
     rm -Rf $$PWD/app/var
+
+test:
+	rm -Rf $$PWD/app/build; \
+	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
+			-v $$PWD/app:/app \
+			-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
+			bash -c "composer test"; \
+
+infection:
+	rm -Rf $$PWD/app/build; \
+	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
+			-v $$PWD/app:/app \
+			-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
+			bash -c "composer infection"; \
+	rm -Rf $$PWD/app/var
 
 doctrine:
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
