@@ -1,9 +1,16 @@
 # Maraquser
-project to manage users roles and permissions.
+Project to manage users roles and permissions.
 
-## Esp
-Proyecto para menejar usuarios roles y permisos.
+---
 
-## Ita
-Progetto per gestire utenti ruoli e permessi.
+## This project is based on:
+- Hexagonal Architecture / DDD
+- Command Bus (Tactician)
+- Asynchrony (RabbitMQ)
+- Docker
+- Makefile
+- Unit Testing (PHPUnit)
+- Mutation Testing (Infection)
+- Symfony Components
+- PHP ^7.1
 
