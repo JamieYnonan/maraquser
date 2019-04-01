@@ -2,7 +2,7 @@
 
 namespace Mu\Domain\Model\User;
 
-final class UserService
+class UserService
 {
     private $userRepository;
 

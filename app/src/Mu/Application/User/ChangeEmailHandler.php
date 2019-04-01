@@ -21,7 +21,7 @@ final class ChangeEmailHandler
         $newEmail = new Email($command->newEmail());
 
         if ($email->equals($newEmail)) {
-            UserException::notChangeSameEmail($email);
+            throw UserException::notChangeSameEmail($email);
         }
 
         $user = $this->userService->validUserByEmailAndPassword(
