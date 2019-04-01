@@ -1,5 +1,5 @@
 # Maraquser
-Project to manage users roles and permissions.
+Project (in progress) to manage users roles and permissions.
 
 ---
 
