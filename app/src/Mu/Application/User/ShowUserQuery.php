@@ -6,7 +6,7 @@ final class ShowUserQuery
 {
     private $userId;
 
-    public function __construct($userId)
+    public function __construct(string $userId)
     {
         $this->userId = $userId;
     }
