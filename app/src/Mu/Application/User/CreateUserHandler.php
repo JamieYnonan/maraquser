@@ -28,20 +28,20 @@ final class CreateUserHandler
     public function handle(CreateUserCommand $command)
     {
         $role = $this->roleService->byIdOrFail(
-            new RoleId($command->getRoleId())
+            new RoleId($command->roleId())
         );
 
-        $email = new Email($command->getEmail());
+        $email = new Email($command->email());
 
         $this->userService->emailIsFreeOrFail($email);
 
         $this->userService->save(
             new User(
-                new UserId($command->getUserId()),
-                new Name($command->getName()),
-                new LastName($command->getLastName()),
+                new UserId($command->userId()),
+                new Name($command->name()),
+                new LastName($command->lastName()),
                 $email,
-                Password::byCleanPassword($command->getPassword()),
+                Password::byCleanPassword($command->password()),
                 $role
             )
         );

@@ -26,32 +26,32 @@ final class CreateUserCommand
         $this->roleId = $roleId;
     }
 
-    public function getName(): string
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function getLastName(): string
+    public function lastName(): string
     {
         return $this->lastName;
     }
 
-    public function getUserId(): string
+    public function userId(): string
     {
         return $this->userId;
     }
 
-    public function getEmail(): string
+    public function email(): string
     {
         return $this->email;
     }
 
-    public function getPassword(): string
+    public function password(): string
     {
         return $this->password;
     }
 
-    public function getRoleId(): string
+    public function roleId(): string
     {
         return $this->roleId;
     }
