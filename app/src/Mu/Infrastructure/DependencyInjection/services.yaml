@@ -42,14 +42,12 @@ services:
 
   Doctrine\ORM\EntityManager:
     factory: 'Mu\Infrastructure\Persistence\Doctrine\EntityManagerFactory:build'
-    arguments: ['%db%', '%app.debug%']
     public: true
 
   Doctrine\ORM\EntityManagerInterface: '@Doctrine\ORM\EntityManager'
 
   PhpAmqpLib\Connection\AMQPStreamConnection:
     factory: 'Mu\Infrastructure\Notification\Rabbit\AMQPFactory:build'
-    arguments: ['%rabbit%']
 
   Mu\Domain\Listener\User\EmailChangedNotificationListener:
     arguments:

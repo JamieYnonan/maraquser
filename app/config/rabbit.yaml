@@ -1,7 +1,0 @@
-parameters:
-  rabbit:
-    host: mu_rabbit
-    port: 5672
-    user: admin
-    password: 123456
-    vhost: maraquser

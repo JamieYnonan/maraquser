@@ -14,14 +14,14 @@ build_image_app:
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
     	--build-arg UID_LOCAL=${UID_LOCAL} \
     	--build-arg GID_LOCAL=${GID_LOCAL} \
-		-it ${IMAGE_APP} docker/application
+		-t ${IMAGE_APP} docker/application
 
 build_image_cli:
 	docker build --force-rm \
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
 		--build-arg UID_LOCAL=${UID_LOCAL} \
 		--build-arg GID_LOCAL=${GID_LOCAL} \
-		-it ${IMAGE_CLI} docker/cli
+		-t ${IMAGE_CLI} docker/cli
 
 up:
 	UID=${UID_LOCAL} GID=${GID_LOCAL} docker-compose -f docker/docker-compose.yml up -d --remove-orphans

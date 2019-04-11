@@ -6,14 +6,14 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 final class AMQPFactory
 {
-    public static function build(array $config): AMQPStreamConnection
+    public static function build(): AMQPStreamConnection
     {
         return new AMQPStreamConnection(
-            $config['host'],
-            $config['port'],
-            $config['user'],
-            $config['password'],
-            $config['vhost']
+            getenv('RABBIT_HOST'),
+            getenv('RABBIT_PORT'),
+            getenv('RABBIT_USER'),
+            getenv('RABBIT_PASSWORD'),
+            getenv('RABBIT_VHOST')
         );
     }
 }

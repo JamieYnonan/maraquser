@@ -1,5 +1,0 @@
-parameters:
-  predis:
-    host: tcp://mu_redis:6379
-    prefix: maraquser_
-    profile: "4.0"

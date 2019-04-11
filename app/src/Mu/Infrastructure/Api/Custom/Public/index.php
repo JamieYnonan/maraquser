@@ -5,11 +5,15 @@ use Mu\Infrastructure\Api\Custom\HttpKernel\ArgumentResolver;
 use Mu\Infrastructure\DependencyInjection\DependencyInjectionFactory;
 use Mu\Infrastructure\Api\Custom\Routes\RoutingFactory;
 use Mu\Infrastructure\Api\Custom\Application;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 
 require __DIR__.'/../../../../../../vendor/autoload.php';
+
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__.'/../../../../../../.env');
 
 $container = DependencyInjectionFactory::build();
 
@@ -17,8 +21,10 @@ if ($container->hasParameter('app.timezone')) {
     date_default_timezone_set($container->getParameter('app.timezone'));
 }
 
-if (class_exists(Symfony\Component\Debug\Debug::class)) {
-    \Symfony\Component\Debug\Debug::enable();
+if (class_exists(Symfony\Component\Debug\Debug::class)
+    && !empty($_ENV['APP_DEBUG'])
+) {
+    Symfony\Component\Debug\Debug::enable();
 }
 
 $request = Request::createFromGlobals();

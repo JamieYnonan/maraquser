@@ -1,6 +1,4 @@
 parameters:
-  app.debug: true
-  app.env: local
   app.timezone: America/Lima
   token.algorithm: HS256
   token.path_key: /app/config/token.key

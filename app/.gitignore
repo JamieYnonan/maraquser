@@ -1,7 +1,5 @@
 vendor/
 .idea
-config/*.yml
-!config/.*.yml
 var/
 build
 composer.lock
