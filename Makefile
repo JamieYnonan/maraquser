@@ -8,7 +8,7 @@ IMAGE_APP		= mu_app
 IMAGE_CLI 		= mu_cli
 IMAGE_WORKER 	= mu_worker
 SERVICE_NAME	= maraquser
-CONATAINER_NAME	= maraquser
+CONTAINER_NAME	= maraquser
 
 DOCKER_NETWORK	= maraquser
 
@@ -62,7 +62,7 @@ infection: ## Execute infection (composer infection). First execute "make test":
 
 doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-		--network container:${CONATAINER_NAME} \
+		--network container:${CONTAINER_NAME} \
 		-v $$PWD/app:/app \
 		-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
 		bash -c "composer doctrine ${COMMAND}"
