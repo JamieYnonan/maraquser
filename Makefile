@@ -29,7 +29,7 @@ build_image_cli: ## Build cli image: make build_image_app
 up: ## Up application: make up
 	@make create-network
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
-	docker-compose -f docker/docker-compose.yml up -d --remove-orphans
+	docker-compose -f docker/docker-compose.yml up -d
 
 create-network: ## Create network in docker: make verify_network
 	@if [ $$(docker network ls | grep maraquser | wc -l) -eq 0  ]; then\
