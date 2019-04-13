@@ -24,24 +24,16 @@ build_image_cli:
 		-t ${IMAGE_CLI} docker/cli
 
 up:
-	UID=${UID_LOCAL} GID=${GID_LOCAL} docker-compose -f docker/docker-compose.yml up -d --remove-orphans
+	docker-compose -f docker/docker-compose.yml up -d --remove-orphans
 
 down:
-	UID=${UID_LOCAL} GID=${GID_LOCAL} docker-compose -f docker/docker-compose.yml down
+	docker-compose -f docker/docker-compose.yml down
 
 composer:
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 		-v $$PWD/app:/app \
 		-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
 		bash -c "composer ${COMMAND}"
-
-full_tests:
-	rm -Rf $$PWD/app/build; \
-	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-    		-v $$PWD/app:/app \
-    		-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
-    		bash -c "composer test && composer infection"; \
-    rm -Rf $$PWD/app/var
 
 test:
 	rm -Rf $$PWD/app/build; \
@@ -50,8 +42,7 @@ test:
 			-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
 			bash -c "composer test"; \
 
-infection:
-	rm -Rf $$PWD/app/build; \
+infection: # first exec make test
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 			-v $$PWD/app:/app \
 			-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
