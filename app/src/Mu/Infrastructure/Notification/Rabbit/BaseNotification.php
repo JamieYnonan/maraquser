@@ -20,7 +20,7 @@ abstract class BaseNotification implements Notification
             $this->channel->queue_declare(
                 $this->queue,
                 false,
-                false,
+                true,
                 false,
                 false
             );
