@@ -13,4 +13,5 @@ Project (in progress) to manage users roles and permissions.
 - Mutation Testing (Infection)
 - Symfony Components
 - PHP ^7.1
+- Python 3
 
