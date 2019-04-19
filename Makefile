@@ -4,15 +4,13 @@ USERNAME_LOCAL	?= "$(shell whoami)"
 UID_LOCAL  		?= "$(shell id -u)"
 GID_LOCAL  		?= "$(shell id -g)"
 
-IMAGE_APP		= mu_app
+IMAGE_APP		= mu_api
 IMAGE_CLI 		= mu_cli
 IMAGE_WORKER 	= mu_worker
 SERVICE_NAME	= maraquser
 CONTAINER_NAME	= maraquser
 
-DOCKER_NETWORK	= maraquser
-
-build_image_app: ## Build app image: make build_image_app
+build_image_api: ## Build api image: make build_image_api
 	docker build --force-rm \
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
     	--build-arg UID_LOCAL=${UID_LOCAL} \
@@ -26,19 +24,21 @@ build_image_cli: ## Build cli image: make build_image_app
 		--build-arg GID_LOCAL=${GID_LOCAL} \
 		-t ${IMAGE_CLI} docker/cli
 
-up: ## Up application: make up
-	@make create-network
-	DOCKER_NETWORK=$(DOCKER_NETWORK) \
-	docker-compose -f docker/docker-compose.yml up -d
+build_image_wk: ## Build app image: make build_image_wk
+	docker build --force-rm \
+		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
+		--build-arg UID_LOCAL=${UID_LOCAL} \
+		--build-arg GID_LOCAL=${GID_LOCAL} \
+		-t ${IMAGE_WORKER} docker/worker
 
-create-network: ## Create network in docker: make verify_network
-	@if [ $$(docker network ls | grep maraquser | wc -l) -eq 0  ]; then\
-		docker network create $(DOCKER_NETWORK);\
-	fi
+up: ## Up application: make up
+	docker stack deploy -c docker/docker-compose.yml maraquser
 
 down: ## Down application: make down
-	DOCKER_NETWORK=$(DOCKER_NETWORK) \
-	docker-compose -f docker/docker-compose.yml down
+	docker stack rm maraquser && docker rm $$(docker ps -a -q) -f
+
+service: ## List docker services: make service
+	docker service ls
 
 composer: ## Execute composer with cli image: make composer COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \

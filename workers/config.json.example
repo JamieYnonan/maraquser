@@ -1,0 +1,20 @@
+{
+  "RABBIT": {
+    "HOST": "maraquser_rabbit",
+    "PORT": 5672,
+    "VHOST": "maraquser",
+    "USER": "admin",
+    "PASSWORD": "123456",
+    "QUEUE_NAME": "email_user_welcome",
+  },
+  "WELCOME_EMAIL": {
+    "FROM": "welcome@maraquser.com",
+    "SUBJECT": "Welcome to Maraquser!",
+  },
+  "SMTP": {
+    "HOST": "smtp.gmail.com",
+    "PORT": 587,
+    "USER": "email@gmail.com",
+    "PASSWORD": "password"
+  }
+}

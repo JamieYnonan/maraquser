@@ -3,7 +3,6 @@ version: '3'
 services:
   mysql:
     image: mysql:5.7
-    container_name: mu_mysql
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/conf:/etc/mysql/
@@ -11,20 +10,27 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - "3306:3306"
+    networks:
+      - maraquser
+
   redis:
     image: redis:4.0
-    container_name: mu_redis
     volumes:
       - ./redis/data:/data
     ports:
       - "6379:6379"
+    networks:
+      - maraquser
+
   rabbit:
     image: rabbitmq:3.7-management
-    container_name: mu_rabbit
     hostname: mu_rabbit
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - maraquser
+      - worker
     environment:
       - HOSTNAME=mu_rabbit
       - RABBITMQ_NODENAME=rabbit@mu_rabbit
@@ -33,21 +39,52 @@ services:
       - RABBITMQ_DEFAULT_VHOST=maraquser
     volumes:
       - ./rabbit/data:/var/lib/rabbitmq
-  maraquser:
-    image: mu_app
-    container_name: maraquser
+
+  api:
+    image: mu_api
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 100M
+      restart_policy:
+        condition: on-failure
     volumes:
       - ../app/:/app/:rw
       - ./log/nginx:/var/log/nginx/
       - ./log/php:/var/log/php-fpm/7.2
     ports:
       - "80:80"
+    networks:
+      - maraquser
     depends_on:
       - mysql
       - rabbit
       - redis
 
+  workers:
+    image: mu_worker
+    volumes:
+      - ../workers/:/workers/:rw
+      - ./worker/wait-for-it.sh:/usr/local/bin/wait-for-it.sh
+    depends_on:
+      - rabbit
+    command: bash -c  "wait-for-it.sh maraquser_rabbit:15672 && python /workers/welcome.py"
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 20M
+        reservations:
+          cpus: '0.05'
+          memory: 15M
+      restart_policy:
+        condition: on-failure
+    networks:
+      - worker
+
 networks:
-  default:
-    external:
-      name: $DOCKER_NETWORK
+  maraquser:
+  worker:
