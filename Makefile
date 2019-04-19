@@ -7,8 +7,7 @@ GID_LOCAL  		?= "$(shell id -g)"
 IMAGE_APP		= mu_api
 IMAGE_CLI 		= mu_cli
 IMAGE_WORKER 	= mu_worker
-SERVICE_NAME	= maraquser
-CONTAINER_NAME	= maraquser
+DOCKER_STACK	= maraquser
 
 build_image_api: ## Build api image: make build_image_api
 	docker build --force-rm \
@@ -32,7 +31,7 @@ build_image_wk: ## Build app image: make build_image_wk
 		-t ${IMAGE_WORKER} docker/worker
 
 up: ## Up application: make up
-	docker stack deploy -c docker/docker-compose.yml maraquser
+	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
 
 down: ## Down application: make down
 	docker stack rm maraquser && docker rm $$(docker ps -a -q) -f
@@ -62,7 +61,7 @@ infection: ## Execute infection (composer infection). First execute "make test":
 
 doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-		--network container:${CONTAINER_NAME} \
+		--network container:$$(docker ps | grep ${DOCKER_STACK}_mysql | awk '{print $$1}') \
 		-v $$PWD/app:/app \
 		-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
 		bash -c "composer doctrine ${COMMAND}"
