@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   mysql:
@@ -42,10 +42,11 @@ services:
       - ./log/php:/var/log/php-fpm/7.2
     ports:
       - "80:80"
-    links:
+    depends_on:
       - mysql
       - rabbit
       - redis
+
 networks:
   default:
     external:
