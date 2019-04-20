@@ -23,7 +23,7 @@ build_image_cli: ## Build cli image: make build_image_cli
 		--build-arg GID_LOCAL=${GID_LOCAL} \
 		-t ${IMAGE_CLI} docker/cli
 
-build_image_wk: ## Build app image: make build_image_wk
+build_image_wk: ## Build worker image: make build_image_wk
 	docker build --force-rm \
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
 		--build-arg UID_LOCAL=${UID_LOCAL} \
@@ -44,7 +44,7 @@ composer: ## Execute composer with cli image: make composer COMMAND="command"
 		-v $$PWD/app:/app \
 		bash -c "composer ${COMMAND}"
 
-console: ## Execute php console: make console COMMAND="command"
+console: ## Execute php console (cli image): make console COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 		-v $$PWD/app:/app ${IMAGE_CLI} \
 		bash -c "php bin/console ${COMMAND}"
