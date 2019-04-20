@@ -37,6 +37,9 @@ infrastructure app/.env
     
     make doctrine COMMAND="orm:schema-tool:create"
 
+## Show routes:
+    make routes
+
 ## Down Project:
     make down
 

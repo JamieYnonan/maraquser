@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$application = new \Symfony\Component\Console\Application();
+
+$application->add(
+    new \Mu\Infrastructure\Console\RouterDebugCommand(
+        \Mu\Infrastructure\Api\Custom\Routes\RoutingFactory::build()
+    )
+);
+
+$application->run();

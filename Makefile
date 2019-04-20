@@ -16,7 +16,7 @@ build_image_api: ## Build api image: make build_image_api
     	--build-arg GID_LOCAL=${GID_LOCAL} \
 		-t ${IMAGE_APP} docker/application
 
-build_image_cli: ## Build cli image: make build_image_app
+build_image_cli: ## Build cli image: make build_image_cli
 	docker build --force-rm \
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
 		--build-arg UID_LOCAL=${UID_LOCAL} \
@@ -42,21 +42,26 @@ service: ## List docker services: make service
 composer: ## Execute composer with cli image: make composer COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 		-v $$PWD/app:/app \
-		-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
 		bash -c "composer ${COMMAND}"
+
+console: ## Execute php console: make console COMMAND="command"
+	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
+		-v $$PWD/app:/app ${IMAGE_CLI} \
+		bash -c "php bin/console ${COMMAND}"
+
+routes: ## Show list routes: make routes
+	@make console COMMAND="debug:router"
 
 test: ## Execute tests (composer test): make test
 	rm -Rf $$PWD/app/build; \
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-			-v $$PWD/app:/app \
-			-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
-			bash -c "composer test"; \
+		-v $$PWD/app:/app \
+		bash -c "composer test"
 
 infection: ## Execute infection (composer infection). First execute "make test": make infection
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-			-v $$PWD/app:/app \
-			-v $$HOME/.ssh:/home/${USERNAME_LOCAL}/.ssh ${IMAGE_CLI} \
-			bash -c "composer infection"; \
+		-v $$PWD/app:/app ${IMAGE_CLI} \
+		bash -c "composer infection"; \
 	rm -Rf $$PWD/app/var
 
 doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
