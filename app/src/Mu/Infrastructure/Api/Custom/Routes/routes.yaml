@@ -57,8 +57,3 @@ user_patch:
     path: /v1/users/{id}
     controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Patch
     methods: [PATCH]
-
-user_delete:
-    path: /v1/permissions
-    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Delete
-    methods: [DELETE]
