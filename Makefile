@@ -34,14 +34,14 @@ up: ## Up application: make up
 	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
 
 down: ## Down application: make down
-	docker stack rm maraquser && docker rm $$(docker ps -a -q) -f
+	docker stack rm ${DOCKER_STACK} && docker rm $$(docker ps -a -q) -f
 
 service: ## List docker services: make service
 	docker service ls
 
 composer: ## Execute composer with cli image: make composer COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-		-v $$PWD/app:/app \
+		-v $$PWD/app:/app ${IMAGE_CLI} \
 		bash -c "composer ${COMMAND}"
 
 console: ## Execute php console (cli image): make console COMMAND="command"
@@ -55,7 +55,7 @@ routes: ## Show list routes: make routes
 test: ## Execute tests (composer test): make test
 	rm -Rf $$PWD/app/build; \
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-		-v $$PWD/app:/app \
+		-v $$PWD/app:/app ${IMAGE_CLI} \
 		bash -c "composer test"
 
 infection: ## Execute infection (composer infection). First execute "make test": make infection
