@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/JamieYnonan/maraquser.svg?branch=master)](https://travis-ci.org/JamieYnonan/base-value-object)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JamieYnonan/maraquser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JamieYnonan/maraquser/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/JamieYnonan/maraquser/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/JamieYnonan/maraquser/?branch=master)
+
 # Maraquser
 Project (in progress) to manage users roles and permissions.
 
