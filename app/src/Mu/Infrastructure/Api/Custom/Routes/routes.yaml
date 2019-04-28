@@ -48,11 +48,6 @@ user_show:
     controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Show
     methods: [GET]
 
-user_update:
-    path: /v1/users/{id}
-    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Update
-    methods: [PUT]
-
 user_patch:
     path: /v1/users/{id}
     controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Patch
