@@ -82,7 +82,6 @@ class RoleTest extends TestCase
         $this->assertInstanceOf(Description::class, $this->role->description());
         $this->assertEquals($newDescription, $this->role->description());
         $this->assertNotEquals($description, $this->role->description());
-
     }
 
     public function testEmptyPermissions()
