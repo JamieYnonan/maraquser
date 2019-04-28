@@ -1,0 +1,32 @@
+dist: trusty
+language: php
+
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+# This triggers builds to run on the new TravisCI infrastructure.
+# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+
+## Cache composer
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - cd app
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+  - wget https://github.com/infection/infection/releases/download/0.9.3/infection.phar
+  - wget https://github.com/infection/infection/releases/download/0.9.3/infection.phar.pubkey
+  - chmod +x infection.phar
+
+script:
+  - vendor/bin/phpcs --standard=psr2 src/
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  - ./infection.phar --min-msi=48 --threads=4
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

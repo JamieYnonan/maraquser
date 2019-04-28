@@ -30,7 +30,6 @@ final class Update
             $dataRequest['name'],
             $dataRequest['lastName'],
             $dataRequest['email']
-
         );
 
         $this->commandBus->handle($command);

@@ -31,10 +31,30 @@ class RouterDebugCommand extends Command
     {
         $this
             ->setDefinition([
-                new InputArgument('name', InputArgument::OPTIONAL, 'A route name'),
-                new InputOption('show-controllers', null, InputOption::VALUE_NONE, 'Show assigned controllers in overview'),
-                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt, xml, json, or md)', 'txt'),
-                new InputOption('raw', null, InputOption::VALUE_NONE, 'To output raw route(s)'),
+                new InputArgument(
+                    'name',
+                    InputArgument::OPTIONAL,
+                    'A route name'
+                ),
+                new InputOption(
+                    'show-controllers',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Show assigned controllers in overview'
+                ),
+                new InputOption(
+                    'format',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'The output format (txt, xml, json, or md)',
+                    'txt'
+                ),
+                new InputOption(
+                    'raw',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'To output raw route(s)'
+                ),
             ])
             ->setDescription('Displays current routes for an application')
             ->setHelp(<<<'EOF'
@@ -60,14 +80,22 @@ EOF
         $routes = $this->routeCollection;
 
         if ($name) {
-            if (!($route = $routes->get($name)) && $matchingRoutes = $this->findRouteNameContaining($name, $routes)) {
+            if (!($route = $routes->get($name))
+                && $matchingRoutes = $this->findRouteNameContaining($name, $routes)
+            ) {
                 $default = 1 === \count($matchingRoutes) ? $matchingRoutes[0] : null;
-                $name = $io->choice('Select one of the matching routes', $matchingRoutes, $default);
+                $name = $io->choice(
+                    'Select one of the matching routes',
+                    $matchingRoutes,
+                    $default
+                );
                 $route = $routes->get($name);
             }
 
             if (!$route) {
-                throw new InvalidArgumentException(sprintf('The route "%s" does not exist.', $name));
+                throw new InvalidArgumentException(
+                    sprintf('The route "%s" does not exist.', $name)
+                );
             }
 
             $helper->describe($io, $route, [
@@ -86,8 +114,10 @@ EOF
         }
     }
 
-    private function findRouteNameContaining(string $name, RouteCollection $routes): array
-    {
+    private function findRouteNameContaining(
+        string $name,
+        RouteCollection $routes
+    ): array {
         $foundRoutesNames = [];
         foreach ($routes as $routeName => $route) {
             if (false !== stripos($routeName, $name)) {
