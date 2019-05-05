@@ -4,17 +4,37 @@ USERNAME_LOCAL	?= "$(shell whoami)"
 UID_LOCAL  		?= "$(shell id -u)"
 GID_LOCAL  		?= "$(shell id -g)"
 
-IMAGE_APP		= mu_api
+LOCAL_IP		= "$$(ip route get 8.8.4.4 | head -1 | awk '{print $$7}')"
+XDEBUG_PORT		= 9999
+XDEBUG_IDEKEY	= PHPSTORM
+
+
+IMAGE_API		= mu_api
 IMAGE_CLI 		= mu_cli
 IMAGE_WORKER 	= mu_worker
 DOCKER_STACK	= maraquser
 
-build_image_api: ## Build api image: make build_image_api
+build_image_api_base: ## Build base api image: make build_image_api_base
 	docker build --force-rm \
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
     	--build-arg UID_LOCAL=${UID_LOCAL} \
     	--build-arg GID_LOCAL=${GID_LOCAL} \
-		-t ${IMAGE_APP} docker/application
+		-t ${IMAGE_API}:base docker/application
+
+build_image_api_dev: ## Build dev api image: make build_image_api_dev
+	@make build_image_api_base
+	docker build --force-rm \
+		--build-arg IMAGE=${IMAGE_API}:base \
+		--build-arg XDEBUG_HOST=${LOCAL_IP} \
+		--build-arg XDEBUG_PORT=${XDEBUG_PORT} \
+		--build-arg XDEBUG_IDEKEY=${XDEBUG_IDEKEY} \
+		-t ${IMAGE_API}:dev docker/application/dev
+
+build_image_api_prod: ## Build prod api image: make build_image_api_prod
+	@make build_image_api_base
+	docker build --force-rm \
+		--build-arg IMAGE=${IMAGE_API}:base \
+		-t ${IMAGE_API}:prod docker/application/prod
 
 build_image_cli: ## Build cli image: make build_image_cli
 	docker build --force-rm \
@@ -30,11 +50,16 @@ build_image_wk: ## Build worker image: make build_image_wk
 		--build-arg GID_LOCAL=${GID_LOCAL} \
 		-t ${IMAGE_WORKER} docker/worker
 
-up: ## Up application: make up
+up_dev: ## Up application dev: make up_dev
+	IMAGE_API=${IMAGE_API}:dev \
+	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
+
+up_prod: ## Up application prod: make up_prod
+	IMAGE_API=${IMAGE_API}:prod \
 	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
 
 down: ## Down application: make down
-	docker stack rm ${DOCKER_STACK} && docker rm $$(docker ps -a -q) -f
+	docker stack rm ${DOCKER_STACK}
 
 service: ## List docker services: make service
 	docker service ls

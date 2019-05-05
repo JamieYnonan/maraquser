@@ -11,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - maraquser
+      - api
 
   redis:
     image: redis:4.0
@@ -20,7 +20,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - maraquser
+      - api
 
   rabbit:
     image: rabbitmq:3.7-management
@@ -29,7 +29,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-      - maraquser
+      - api
       - worker
     environment:
       - HOSTNAME=mu_rabbit
@@ -41,7 +41,7 @@ services:
       - ./rabbit/data:/var/lib/rabbitmq
 
   api:
-    image: mu_api
+    image: $IMAGE_API
     deploy:
       replicas: 2
       resources:
@@ -57,7 +57,7 @@ services:
     ports:
       - "80:80"
     networks:
-      - maraquser
+      - api
     depends_on:
       - mysql
       - rabbit
@@ -86,5 +86,5 @@ services:
       - worker
 
 networks:
-  maraquser:
+  api:
   worker:
