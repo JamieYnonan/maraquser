@@ -16,10 +16,10 @@ Project (in progress) to manage users roles and permissions.
 - Unit Testing (PHPUnit)
 - Mutation Testing (Infection)
 - Symfony Components
-- PHP ^7.1
+- PHP ^7.1 (Xdebug)
 - Python 3
 
-## Up Project
+## Up Project (local)
 
 create a db **maraquser** or change name in app/.env
 
@@ -29,15 +29,15 @@ changes workers/config.json with real configs
 
 **api config:**  
 application app/config  
-infrastructure app/.env
+infrastructure rename app/.env.example to app/.env
 
     make build_image_cli
-    make build_image_api
+    make build_image_api_dev
     make build_image_wk
     
     make composer COMMAND="install"
     
-    make up
+    make up_dev
     
     make doctrine COMMAND="orm:schema-tool:create"
 
