@@ -41,12 +41,12 @@ services:
       - ./rabbit/data:/var/lib/rabbitmq
 
   api:
-    image: $IMAGE_API
+    image: $API_IMAGE
     deploy:
       replicas: 2
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 100M
       restart_policy:
         condition: on-failure

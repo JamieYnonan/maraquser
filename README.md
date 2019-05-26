@@ -31,8 +31,8 @@ changes workers/config.json with real configs
 application app/config  
 infrastructure rename app/.env.example to app/.env
 
-    make build_image_cli
-    make build_image_api_dev
+    make build_cli_image
+    make build_api_image_dev
     make build_image_wk
     
     make composer COMMAND="install"
