@@ -42,6 +42,8 @@ services:
 
   api:
     image: $API_IMAGE
+    environment:
+      - APP_DEBUG=${APP_DEBUG}
     deploy:
       replicas: 2
       resources:

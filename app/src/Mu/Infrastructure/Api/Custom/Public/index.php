@@ -12,6 +12,10 @@ use Symfony\Component\Routing\RequestContext;
 
 require __DIR__.'/../../../../../../vendor/autoload.php';
 
+if (getenv('APP_DEBUG')) {
+    Symfony\Component\Debug\Debug::enable();
+}
+
 $dotenv = new Dotenv();
 $dotenv->load(__DIR__.'/../../../../../../.env');
 
@@ -19,12 +23,6 @@ $container = DependencyInjectionFactory::build();
 
 if ($container->hasParameter('app.timezone')) {
     date_default_timezone_set($container->getParameter('app.timezone'));
-}
-
-if (class_exists(Symfony\Component\Debug\Debug::class)
-    && !empty($_ENV['APP_DEBUG'])
-) {
-    Symfony\Component\Debug\Debug::enable();
 }
 
 $request = Request::createFromGlobals();

@@ -50,10 +50,12 @@ build_image_wk: ## Build worker image: make build_image_wk
 
 up_dev: ## Up application dev: make up_dev
 	API_IMAGE=${API_IMAGE}:dev \
+	APP_DEBUG=0 \
 	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
 
 up_prod: ## Up application prod: make up_prod
 	API_IMAGE=${API_IMAGE}:prod \
+	APP_DEBUG=0 \
 	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
 
 down: ## Down application: make down
