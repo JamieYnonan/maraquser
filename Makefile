@@ -21,18 +21,13 @@ build_api_image_base: ## Build base api image: make build_api_image_base
 		-t ${API_IMAGE}:base docker/application
 
 build_api_image_dev: ## Build dev api image: make build_api_image_dev
+	@make build_api_image_base
 	docker build --force-rm \
 		--build-arg IMAGE=${API_IMAGE}:base \
 		--build-arg XDEBUG_HOST=${LOCAL_IP} \
 		--build-arg XDEBUG_PORT=${XDEBUG_PORT} \
 		--build-arg XDEBUG_IDEKEY=${XDEBUG_IDEKEY} \
 		-t ${API_IMAGE}:dev docker/application/dev
-
-build_api_image_prod: ## Build prod api image: make build_api_image_prod
-	@make build_api_image_base
-	docker build --force-rm \
-		--build-arg IMAGE=${API_IMAGE}:base \
-		-t ${API_IMAGE}:prod docker/application/prod
 
 build_cli_image: ## Build cli image: make build_cli_image
 	docker build --force-rm \
@@ -41,7 +36,7 @@ build_cli_image: ## Build cli image: make build_cli_image
 		--build-arg GID_LOCAL=${GID_LOCAL} \
 		-t ${CLI_IMAGE} docker/cli
 
-build_image_wk: ## Build worker image: make build_image_wk
+build_wk_image: ## Build worker image: make build_wk_image
 	docker build --force-rm \
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
 		--build-arg UID_LOCAL=${UID_LOCAL} \
@@ -50,12 +45,7 @@ build_image_wk: ## Build worker image: make build_image_wk
 
 up_dev: ## Up application dev: make up_dev
 	API_IMAGE=${API_IMAGE}:dev \
-	APP_DEBUG=0 \
-	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
-
-up_prod: ## Up application prod: make up_prod
-	API_IMAGE=${API_IMAGE}:prod \
-	APP_DEBUG=0 \
+	APP_DEBUG=1 \
 	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
 
 down: ## Down application: make down
@@ -79,14 +69,10 @@ routes: ## Show list routes: make routes
 
 test: ## Execute tests (composer test): make test
 	rm -Rf $$PWD/app/build; \
-	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-		-v $$PWD/app:/app ${CLI_IMAGE} \
-		bash -c "composer test"
+	@make composer COMMAND=test
 
 infection: ## Execute infection (composer infection). First execute "make test": make infection
-	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
-		-v $$PWD/app:/app ${CLI_IMAGE} \
-		bash -c "composer infection"; \
+	@make composer COMMAND=infection"; \
 	rm -Rf $$PWD/app/var
 
 doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
