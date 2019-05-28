@@ -4,3 +4,4 @@ docker/*
 !docker/application
 !docker/cli
 !docker/config
+!docker/worker
