@@ -67,12 +67,17 @@ console: ## Execute php console (cli image): make console COMMAND="command"
 routes: ## Show list routes: make routes
 	@make console COMMAND="debug:router"
 
-test: ## Execute tests (composer test): make test
-	rm -Rf $$PWD/app/build; \
+test: ## Execute tests: make test
+	if [ -d $$PWD/app/build ]; then \
+		rm -Rf $$PWD/app/build; \
+	fi
 	@make composer COMMAND=test
 
-infection: ## Execute infection (composer infection). First execute "make test": make infection
-	@make composer COMMAND=infection"; \
+infection: ## Execute infection (composer infection): make infection
+	if [ ! -d $$PWD/app/build ]; then \
+		$(MAKE) test; \
+	fi
+	@make composer COMMAND=infection; \
 	rm -Rf $$PWD/app/var
 
 doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
