@@ -33,7 +33,7 @@ infrastructure rename app/.env.example to app/.env
 
     make build_cli_image
     make build_api_image_dev
-    make build_image_wk
+    make build_wk_image
     
     make composer COMMAND="install"
     
@@ -51,8 +51,8 @@ infrastructure rename app/.env.example to app/.env
     make test
     
 ## Run Mutation Testing (Infection):
-first run "make test"
-    
+if the app/build dir doesn't exist, internally exec _make test_
+ 
     make infection
     
 ## Run Doctrine tool:
