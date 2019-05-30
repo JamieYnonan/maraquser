@@ -31,6 +31,8 @@ use Mu\Application\User\CreateUserCommand;
 use Mu\Application\User\CreateUserHandler;
 use Mu\Application\User\DeleteUserCommand;
 use Mu\Application\User\DeleteUserHandler;
+use Mu\Application\User\SingInCommand;
+use Mu\Application\User\SingInHandler;
 use Mu\Domain\Listener\User\EmailChangedNotificationListener;
 use Mu\Domain\Listener\User\WelcomeNotificationUserCreatedListener;
 use Mu\Domain\Model\User\UserChangedEmailEvent;
@@ -85,7 +87,7 @@ final class CommandBusFactory
             )
         );
     }
-    
+
     private static function commandHandlerPermission(
         ContainerInterface $container
     ): array {
@@ -98,7 +100,7 @@ final class CommandBusFactory
             )
         ];
     }
-    
+
     private static function commandHandlerRole(
         ContainerInterface $container
     ): array {
@@ -117,7 +119,7 @@ final class CommandBusFactory
             )
         ];
     }
-    
+
     private static function commandHandlerUser(
         ContainerInterface $container
     ): array {
@@ -133,6 +135,9 @@ final class CommandBusFactory
             ),
             DeleteUserCommand::class => $container->get(
                 DeleteUserHandler::class
+            ),
+            SingInCommand::class => $container->get(
+                SingInHandler::class
             )
         ];
     }

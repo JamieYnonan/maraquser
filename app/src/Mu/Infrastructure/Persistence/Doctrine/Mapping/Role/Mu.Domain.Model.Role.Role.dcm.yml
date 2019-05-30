@@ -26,7 +26,6 @@ Mu\Domain\Model\Role\Role:
   manyToMany:
     permissions:
       targetEntity: Mu\Domain\Model\Permission\Permission
-      fetch: EXTRA_LAZY
       joinTable:
         name: role_permissions
         joinColumns:

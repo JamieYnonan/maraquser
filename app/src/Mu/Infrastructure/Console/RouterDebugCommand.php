@@ -12,6 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\RouteCollection;
 
+/**
+ * Class RouterDebugCommand
+ *
+ * based on Symfony\Bundle\FrameworkBundle\Command\RouterDebugCommand;
+ *
+ * @package Mu\Infrastructure\Console
+ */
 class RouterDebugCommand extends Command
 {
     protected static $defaultName = 'debug:router';

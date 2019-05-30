@@ -1,22 +1,22 @@
 Mu\Domain\Model\User\User:
   attributes:
     id:
-      groups: ['user_v1']
+      groups: ['user_v1', 'jwt']
     name:
-      groups: ['user_v1', 'notification']
+      groups: ['user_v1', 'notification', 'jwt']
     lastName:
       groups: ['user_v1', 'notification']
     email:
-      groups: ['user_v1', 'notification']
+      groups: ['user_v1', 'notification', 'jwt']
     status:
       groups: ['user_v1']
 
 Mu\Domain\Model\Role\Role:
   attributes:
     id:
-      groups: ['role_v1']
+      groups: ['role_v1', 'jwt']
     name:
-      groups: ['role_v1']
+      groups: ['role_v1', 'jwt']
     description:
       groups: ['role_v1']
     status:
@@ -25,3 +25,23 @@ Mu\Domain\Model\Role\Role:
       groups: ['role_v1']
     createdAt:
       groups: ['role_v1']
+
+Mu\Domain\Model\Permission\Permission:
+  attributes:
+    id:
+      groups: ['jwt']
+    name:
+      groups: ['jwt']
+
+Mu\Infrastructure\Application\Authorization\Jwt\Payload:
+  attributes:
+    jti:
+      groups: ['jwt']
+    iat:
+      groups: ['jwt']
+    nbf:
+      groups: ['jwt']
+    exp:
+      groups: ['jwt']
+    edp:
+      groups: ['jwt']

@@ -3,7 +3,6 @@
 namespace Mu\Domain\Model\Role;
 
 use Mu\Domain\Model\Permission\Permission;
-use Mu\Domain\Model\Permission\PermissionId;
 
 class Role
 {
@@ -50,7 +49,7 @@ class Role
     /**
      * @return Permission[]
      */
-    public function permissions(): array
+    public function permissions(): iterable
     {
         return $this->permissions;
     }

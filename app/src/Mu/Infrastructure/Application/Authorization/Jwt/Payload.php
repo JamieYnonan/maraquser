@@ -5,11 +5,7 @@ use Carbon\Carbon;
 use Mu\Domain\Model\User\User;
 use Ramsey\Uuid\Uuid;
 
-/**
- * Class Payload
- * @package Mu\Infrastructure\Application\Authorization\Jwt\FirebaseToken
- */
-class Payload
+final class Payload
 {
     const MINUTES_EXPIRE = 60;
 
@@ -19,11 +15,7 @@ class Payload
     private $exp;
     private $edp;
 
-    /**
-     * @param User $user
-     * @return static
-     */
-    public static function byUser(User $user)
+    public static function byUser(User $user): self
     {
         $now = new Carbon();
         return new static(
@@ -32,12 +24,14 @@ class Payload
             $now->getTimestamp(),
             $now->addMinutes(self::MINUTES_EXPIRE)->getTimestamp(),
             [
-                'id' => $user->id()->toString(),
+                'user' => $user,
+                'role' => $user->role(),
+                'permissions' => $user->role()->permissions()
             ]
         );
     }
 
-    public function __construct(
+    private function __construct(
         string $jti,
         int $iat,
         int $nbf,
@@ -49,5 +43,26 @@ class Payload
         $this->nbf = $nbf;
         $this->exp = $exp;
         $this->edp = $edp;
+    }
+
+    public static function byData(array $data = []): self
+    {
+        $now = new Carbon();
+        return new static(
+            Uuid::uuid4()->toString(),
+            $now->getTimestamp(),
+            $now->getTimestamp(),
+            $now->addMinutes(self::MINUTES_EXPIRE)->getTimestamp(),
+            $data
+        );
+    }
+
+    /**
+     * Value is a Timestamp
+     * @return int
+     */
+    public function expiresAt(): int
+    {
+        return $this->exp;
     }
 }

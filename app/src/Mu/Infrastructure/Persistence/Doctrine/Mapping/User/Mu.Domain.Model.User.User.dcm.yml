@@ -32,7 +32,6 @@ Mu\Domain\Model\User\User:
   manyToOne:
     role:
       targetEntity: Mu\Domain\Model\Role\Role
-      fetch: EXTRA_LAZY
       joinColumn:
         role_id:
           referencedColumnName: id

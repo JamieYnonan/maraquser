@@ -24,7 +24,11 @@ final class FirebaseToken implements Token
     public function encode(Payload $payload): string
     {
         return JWT::encode(
-            $this->serializer->normalize($payload),
+            $this->serializer->normalize(
+                $payload,
+                null,
+                ['groups' => ['jwt']]
+            ),
             $this->key,
             $this->algorithm
         );
