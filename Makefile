@@ -44,6 +44,12 @@ build_wk_image: ## Build worker image: make build_wk_image
 		-t ${WORKER_IMAGE} docker/worker
 
 up_dev: ## Up application dev: make up_dev
+	if [ ! -d $$PWD/docker/mysql/data ]; then \
+		mkdir -p $$PWD/docker/mysql/data; \
+	fi
+	if [ ! -d $$PWD/docker/rabbit/data ]; then \
+		mkdir -p $$PWD/docker/rabbit/data; \
+	fi
 	API_IMAGE=${API_IMAGE}:dev \
 	APP_DEBUG=1 \
 	docker stack deploy -c docker/docker-compose.yml ${DOCKER_STACK}
