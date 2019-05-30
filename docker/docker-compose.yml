@@ -4,21 +4,11 @@ services:
   mysql:
     image: mysql:5.7
     volumes:
-      - ./mysql/data:/var/lib/mysql
-      - ./mysql/conf:/etc/mysql/
+      - ./mysql/data:/var/lib/mysql/
     environment:
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - "3306:3306"
-    networks:
-      - api
-
-  redis:
-    image: redis:4.0
-    volumes:
-      - ./redis/data:/data
-    ports:
-      - "6379:6379"
     networks:
       - api
 
@@ -38,10 +28,10 @@ services:
       - RABBITMQ_DEFAULT_PASS=123456
       - RABBITMQ_DEFAULT_VHOST=maraquser
     volumes:
-      - ./rabbit/data:/var/lib/rabbitmq
+      - ./rabbit/data:/var/lib/rabbitmq/
 
   api:
-    image: $API_IMAGE
+    image: ${API_IMAGE}
     environment:
       - APP_DEBUG=${APP_DEBUG}
     deploy:
@@ -54,8 +44,6 @@ services:
         condition: on-failure
     volumes:
       - ../app/:/app/:rw
-      - ./log/nginx:/var/log/nginx/
-      - ./log/php:/var/log/php-fpm/7.2
     ports:
       - "80:80"
     networks:
