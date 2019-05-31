@@ -22,7 +22,7 @@ class SerializerFactory
                 new PropertyNormalizer(
                     new ClassMetadataFactory(
                         new YamlFileLoader(
-                            __DIR__ . '/serializer.yaml'
+                            __DIR__.'/serializer.yaml'
                         )
                     )
                 ),

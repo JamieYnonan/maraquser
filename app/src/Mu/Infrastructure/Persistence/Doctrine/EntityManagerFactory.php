@@ -22,9 +22,9 @@ final class EntityManagerFactory
             ],
             Setup::createYAMLMetadataConfiguration(
                 [
-                    __DIR__ . '/Mapping/Permission',
-                    __DIR__ . '/Mapping/Role',
-                    __DIR__ . '/Mapping/User'
+                    __DIR__.'/Mapping/Permission',
+                    __DIR__.'/Mapping/Role',
+                    __DIR__.'/Mapping/User'
                 ],
                 getenv('APP_DEBUG')
             )
