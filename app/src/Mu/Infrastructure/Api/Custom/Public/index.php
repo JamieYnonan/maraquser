@@ -14,6 +14,8 @@ require __DIR__.'/../../../../../../vendor/autoload.php';
 
 if (getenv('APP_DEBUG')) {
     Symfony\Component\Debug\Debug::enable();
+} else {
+    Mu\Infrastructure\Api\Custom\Exception\ExceptionHandler::register();
 }
 
 $dotenv = new Dotenv();
