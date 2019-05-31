@@ -45,35 +45,40 @@ final class CommandBusFactory
 {
     public static function build(ContainerInterface $container): CommandBus
     {
-        return new CommandBus(
-            [
-                new LockingMiddleware(),
-                new TransactionMiddleware(
-                    $container->get(EntityManager::class)
-                ),
-                new DomainEventListenerMiddleware(
-                    new Emitter(),
-                    [
-                        UserCreatedEvent::EVENT_NAME => [
-                            $container->get(
-                                WelcomeNotificationUserCreatedListener::class
-                            )
-                        ],
-                        UserDeletedEvent::EVENT_NAME => [],
-                        UserChangedEmailEvent::EVENT_NAME => [
-                            $container->get(
-                                EmailChangedNotificationListener::class
-                            )
+        try {
+            return new CommandBus(
+                [
+                    new LockingMiddleware(),
+                    new TransactionMiddleware(
+                        $container->get(EntityManager::class)
+                    ),
+                    new DomainEventListenerMiddleware(
+                        new Emitter(),
+                        [
+                            UserCreatedEvent::EVENT_NAME => [
+                                $container->get(
+                                    WelcomeNotificationUserCreatedListener::class
+                                )
+                            ],
+                            UserDeletedEvent::EVENT_NAME => [],
+                            UserChangedEmailEvent::EVENT_NAME => [
+                                $container->get(
+                                    EmailChangedNotificationListener::class
+                                )
+                            ]
                         ]
-                    ]
-                ),
-                new CommandHandlerMiddleware(
-                    new ClassNameExtractor(),
-                    self::commandHanlderInMemoryLocation($container),
-                    new HandleInflector()
-                )
-            ]
-        );
+                    ),
+                    new CommandHandlerMiddleware(
+                        new ClassNameExtractor(),
+                        self::commandHanlderInMemoryLocation($container),
+                        new HandleInflector()
+                    )
+                ]
+            );
+        } catch (\Throwable $e) {
+            throw CommandBusException::byException($e);
+        }
+
     }
 
     private static function commandHanlderInMemoryLocation(

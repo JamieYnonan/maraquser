@@ -2,9 +2,10 @@
 
 namespace Mu\Infrastructure\Exception;
 
+use RuntimeException;
 use Throwable;
 
-class InfrastructureException extends \RuntimeException
+class InfrastructureException extends RuntimeException
 {
     public static function byException(Throwable $e): Throwable
     {

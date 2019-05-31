@@ -10,25 +10,31 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Throwable;
 
 class SerializerFactory
 {
     public static function build(): Serializer
     {
-        return new Serializer(
-            [
-                new BasicValueObjectNormalizer(),
-                new DateTimeNormalizer(),
-                new PropertyNormalizer(
-                    new ClassMetadataFactory(
-                        new YamlFileLoader(
-                            __DIR__.'/serializer.yaml'
+        try {
+            return new Serializer(
+                [
+                    new BasicValueObjectNormalizer(),
+                    new DateTimeNormalizer(),
+                    new PropertyNormalizer(
+                        new ClassMetadataFactory(
+                            new YamlFileLoader(
+                                __DIR__.'/serializer.yaml'
+                            )
                         )
-                    )
-                ),
-                new JsonSerializableNormalizer()
-            ],
-            [new JsonEncoder()]
-        );
+                    ),
+                    new JsonSerializableNormalizer()
+                ],
+                [new JsonEncoder()]
+            );
+        } catch (Throwable $e) {
+            throw SerializerException::byException($e);
+        }
+
     }
 }
