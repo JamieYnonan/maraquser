@@ -16,16 +16,21 @@ use PHPUnit\Framework\TestCase;
 class CreateUserHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|UserService
      */
     private $userServiceMock;
 
     /**
-     * @var MockObject
+     * @var MockObject|RoleService
      */
     private $roleServiceMock;
 
     private $command;
+
+    /**
+     * @var CreateUserHandler
+     */
+    private $handler;
 
     protected function setUp()
     {
@@ -51,6 +56,11 @@ class CreateUserHandlerTest extends TestCase
             '123456',
             (new RoleId())->value()
         );
+
+        $this->handler = new CreateUserHandler(
+            $this->userServiceMock,
+            $this->roleServiceMock
+        );
     }
 
     public function testHandle()
@@ -58,21 +68,12 @@ class CreateUserHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willReturn($this->createRole());
 
-        $handler = $this->createHandler();
-        $this->assertNull($handler->handle($this->command));
+        $this->assertNull($this->handler->handle($this->command));
     }
 
     private function createRole(): Role
     {
         return new Role(new RoleId(), new \Mu\Domain\Model\Role\Name('role'));
-    }
-
-    private function createHandler(): CreateUserHandler
-    {
-        return new CreateUserHandler(
-            $this->userServiceMock,
-            $this->roleServiceMock
-        );
     }
 
     /**
@@ -83,8 +84,7 @@ class CreateUserHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willThrowException(RoleException::notExists());
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 
     /**
@@ -97,7 +97,6 @@ class CreateUserHandlerTest extends TestCase
                 UserException::emailIsNotFree(new Email('email@mail.com'))
             );
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 }

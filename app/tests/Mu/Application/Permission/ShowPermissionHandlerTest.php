@@ -13,11 +13,15 @@ use PHPUnit\Framework\TestCase;
 class ShowPermissionHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
     private $query;
     private $permission;
+    /**
+     * @var ShowPermissionHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -34,7 +38,13 @@ class ShowPermissionHandlerTest extends TestCase
             new Name('name')
         );
 
-        $this->query = new ShowPermissionQuery($this->permission->id());
+        $this->query = new ShowPermissionQuery(
+            $this->permission->id()->value()
+        );
+
+        $this->handler = new ShowPermissionHandler(
+            $this->permissionServiceMock
+        );
     }
 
     public function testHandlerOk()
@@ -42,14 +52,10 @@ class ShowPermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willReturn($this->permission);
 
-        $handler = $this->createHandler();
-
-        $this->assertEquals($this->permission, $handler->handler($this->query));
-    }
-
-    private function createHandler(): ShowPermissionHandler
-    {
-        return new ShowPermissionHandler($this->permissionServiceMock);
+        $this->assertEquals(
+            $this->permission,
+            $this->handler->handle($this->query)
+        );
     }
 
     /**
@@ -60,8 +66,6 @@ class ShowPermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willThrowException(PermissionException::notExistsById());
 
-        $handler = $this->createHandler();
-
-        $handler->handler($this->query);
+        $this->handler->handle($this->query);
     }
 }

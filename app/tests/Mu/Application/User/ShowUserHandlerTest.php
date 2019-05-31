@@ -18,11 +18,16 @@ use PHPUnit\Framework\TestCase;
 class ShowUserHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|UserService
      */
     private $userServiceMock;
 
     private $query;
+
+    /**
+     * @var ShowUserHandler
+     */
+    private $handler;
 
     protected function setUp()
     {
@@ -35,6 +40,8 @@ class ShowUserHandlerTest extends TestCase
             ->getMock();
 
         $this->query = new ShowUserQuery((new UserId())->value());
+
+        $this->handler = new ShowUserHandler($this->userServiceMock);
     }
 
     public function testHandler()
@@ -42,10 +49,9 @@ class ShowUserHandlerTest extends TestCase
         $this->userServiceMock->method('byIdOrFail')
             ->willReturn($this->createUser());
 
-        $handler = $this->createHandler();
         $this->assertInstanceOf(
             User::class,
-            $handler->handler($this->query)
+            $this->handler->handler($this->query)
         );
     }
 
@@ -61,11 +67,6 @@ class ShowUserHandlerTest extends TestCase
         );
     }
 
-    private function createHandler(): ShowUserHandler
-    {
-        return new ShowUserHandler($this->userServiceMock);
-    }
-
     /**
      * @expectedException \Mu\Domain\Model\User\UserException
      */
@@ -74,7 +75,6 @@ class ShowUserHandlerTest extends TestCase
         $this->userServiceMock->method('byIdOrFail')
             ->willThrowException(UserException::notExistsById());
 
-        $handler = $this->createHandler();
-        $handler->handler($this->query);
+        $this->handler->handler($this->query);
     }
 }

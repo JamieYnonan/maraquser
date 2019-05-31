@@ -18,11 +18,16 @@ use PHPUnit\Framework\TestCase;
 class DeleteUserHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|UserService
      */
     private $userServiceMock;
 
     private $command;
+
+    /**
+     * @var DeleteUserHandler
+     */
+    private $handler;
 
     protected function setUp()
     {
@@ -35,6 +40,8 @@ class DeleteUserHandlerTest extends TestCase
             ->getMock();
 
         $this->command = new DeleteUserCommand((new UserId)->value());
+
+        $this->handler = new DeleteUserHandler($this->userServiceMock);
     }
 
     public function testHandler()
@@ -42,8 +49,7 @@ class DeleteUserHandlerTest extends TestCase
         $this->userServiceMock->method('byIdOrFail')
             ->willReturn($this->createUser());
 
-        $handler = $this->createHandler();
-        $this->assertNull($handler->handler($this->command));
+        $this->assertNull($this->handler->handle($this->command));
     }
 
     private function createUser(): User
@@ -58,11 +64,6 @@ class DeleteUserHandlerTest extends TestCase
         );
     }
 
-    private function createHandler(): DeleteUserHandler
-    {
-        return new DeleteUserHandler($this->userServiceMock);
-    }
-
     /**
      * @expectedException \Mu\Domain\Model\User\UserException
      */
@@ -71,7 +72,6 @@ class DeleteUserHandlerTest extends TestCase
         $this->userServiceMock->method('byIdOrFail')
             ->willThrowException(UserException::notExistsById());
 
-        $handler = $this->createHandler();
-        $handler->handler($this->command);
+        $this->handler->handle($this->command);
     }
 }

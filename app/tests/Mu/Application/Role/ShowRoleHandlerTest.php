@@ -13,11 +13,15 @@ use PHPUnit\Framework\TestCase;
 class ShowRoleHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|RoleService
      */
     private $roleServiceMock;
     private $query;
     private $role;
+    /**
+     * @var ShowRoleHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -35,6 +39,8 @@ class ShowRoleHandlerTest extends TestCase
         );
 
         $this->query = new ShowRoleQuery($this->role->id());
+
+        $this->handler = new ShowRoleHandler($this->roleServiceMock);
     }
 
     public function testHandlerOk()
@@ -42,14 +48,7 @@ class ShowRoleHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willReturn($this->role);
 
-        $handler = $this->createHandler();
-
-        $this->assertEquals($this->role, $handler->handler($this->query));
-    }
-
-    private function createHandler(): ShowRoleHandler
-    {
-        return new ShowRoleHandler($this->roleServiceMock);
+        $this->assertEquals($this->role, $this->handler->handle($this->query));
     }
 
     /**
@@ -60,7 +59,6 @@ class ShowRoleHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willThrowException(RoleException::notExists());
 
-        $handler = $this->createHandler();
-        $handler->handler($this->query);
+        $this->handler->handle($this->query);
     }
 }

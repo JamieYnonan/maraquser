@@ -12,10 +12,13 @@ use PHPUnit\Framework\TestCase;
 class CreateRoleHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|RoleService
      */
     private $roleServiceMock;
-    private $command;
+    /**
+     * @var CreateRoleHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -27,37 +30,27 @@ class CreateRoleHandlerTest extends TestCase
             ->setMethods(['save', 'notExistsNameOrFail'])
             ->getMock();
 
-        $this->command = new CreateRoleCommand(
-            (new RoleId())->value(),
-            'role',
-            'description'
-        );
+        $this->handler = new CreateRoleHandler($this->roleServiceMock);
     }
 
     public function testHandleOk()
     {
-        $handler = $this->createHandler();
-
-        $this->assertNull($handler->handle($this->command));
+        $this->assertNull($this->handler->handle($this->createCommand()));
     }
 
-    private function createHandler(): CreateRoleHandler
-    {
-        return new CreateRoleHandler($this->roleServiceMock);
+    private function createCommand(
+        ?string $description = 'description'
+    ): CreateRoleCommand {
+        return new CreateRoleCommand(
+            (new RoleId())->value(),
+            'role',
+            $description
+        );
     }
 
     public function testWithoutDescription()
     {
-        $handler = $this->createHandler();
-
-        $this->assertNull(
-            $handler->handle(
-                new CreateRoleCommand(
-                    (new RoleId())->value(),
-                    'role'
-                )
-            )
-        );
+        $this->assertNull($this->handler->handle($this->createCommand(null)));
     }
 
     /**
@@ -70,7 +63,6 @@ class CreateRoleHandlerTest extends TestCase
                 RoleException::alreadyExistsByName(new Name('role'))
             );
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->createCommand());
     }
 }

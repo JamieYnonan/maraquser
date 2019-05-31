@@ -13,11 +13,15 @@ use PHPUnit\Framework\TestCase;
 class UpdatePermissionHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
     private $command;
     private $permission;
+    /**
+     * @var UpdatePermissionHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -40,6 +44,10 @@ class UpdatePermissionHandlerTest extends TestCase
             $permissionId->value(),
             'new-name'
         );
+
+        $this->handler = new UpdatePermissionHandler(
+            $this->permissionServiceMock
+        );
     }
 
     public function testHandleOk()
@@ -47,14 +55,7 @@ class UpdatePermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willReturn($this->permission);
 
-        $handler = $this->createHandler();
-
-        $this->assertNull($handler->handle($this->command));
-    }
-
-    private function createHandler(): UpdatePermissionHandler
-    {
-        return new UpdatePermissionHandler($this->permissionServiceMock);
+        $this->assertNull($this->handler->handle($this->command));
     }
 
     /**
@@ -65,9 +66,7 @@ class UpdatePermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willThrowException(PermissionException::notExistsById());
 
-        $handler = $this->createHandler();
-
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 
     /**
@@ -83,8 +82,6 @@ class UpdatePermissionHandlerTest extends TestCase
                 PermissionException::alreadyExistsByName(new Name('new-name'))
             );
 
-        $handler = $this->createHandler();
-
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 }

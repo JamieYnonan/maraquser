@@ -22,7 +22,7 @@ final class Show
 
     public function __invoke(string $id): JsonResponse
     {
-        $role = $this->queryHandler->handler(
+        $role = $this->queryHandler->handle(
             new ShowRoleQuery($id)
         );
 

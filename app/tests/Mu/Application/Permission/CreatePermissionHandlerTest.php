@@ -12,10 +12,14 @@ use PHPUnit\Framework\TestCase;
 class CreatePermissionHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
     private $command;
+    /**
+     * @var CreatePermissionHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -27,37 +31,29 @@ class CreatePermissionHandlerTest extends TestCase
             ->setMethods(['save', 'notExistsNameOrFail'])
             ->getMock();
 
-        $this->command = new CreatePermissionCommand(
-            (new PermissionId())->value(),
-            'permission',
-            'description'
+        $this->handler = new CreatePermissionHandler(
+            $this->permissionServiceMock
         );
     }
 
     public function testHandleOk()
     {
-        $handler = $this->createHandler();
-
-        $this->assertNull($handler->handle($this->command));
+        $this->assertNull($this->handler->handle($this->createCommand()));
     }
 
-    private function createHandler(): CreatePermissionHandler
-    {
-        return new CreatePermissionHandler($this->permissionServiceMock);
+    private function createCommand(
+        ?string $description = 'description'
+    ): CreatePermissionCommand {
+        return new CreatePermissionCommand(
+            (new PermissionId())->value(),
+            'permission',
+            $description
+        );
     }
 
     public function testHandleWithoutDescription()
     {
-        $handler = $this->createHandler();
-
-        $this->assertNull(
-            $handler->handle(
-                new CreatePermissionCommand(
-                    (new PermissionId())->value(),
-                    'permission'
-                )
-            )
-        );
+        $this->assertNull($this->handler->handle($this->createCommand(null)));
     }
 
     /**
@@ -70,7 +66,6 @@ class CreatePermissionHandlerTest extends TestCase
                 PermissionException::alreadyExistsByName(new Name('name'))
             );
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->createCommand());
     }
 }

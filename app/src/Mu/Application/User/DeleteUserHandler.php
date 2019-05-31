@@ -14,7 +14,7 @@ final class DeleteUserHandler
         $this->userService = $userService;
     }
 
-    public function handler(DeleteUserCommand $command)
+    public function handle(DeleteUserCommand $command)
     {
         $user = $this->userService->byIdOrFail(new UserId($command->userId()));
         $user->delete();

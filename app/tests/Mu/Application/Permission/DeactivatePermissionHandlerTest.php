@@ -11,10 +11,14 @@ use PHPUnit\Framework\TestCase;
 class DeactivatePermissionHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
     private $command;
+    /**
+     * @var DeactivatePermissionHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -29,18 +33,15 @@ class DeactivatePermissionHandlerTest extends TestCase
         $this->command = new DeactivatePermissionCommand(
             (new PermissionId())->value()
         );
+
+        $this->handler = new DeactivatePermissionHandler(
+            $this->permissionServiceMock
+        );
     }
 
     public function testHandleOk()
     {
-        $handler = $this->createHandler();
-
-        $this->assertNull($handler->handle($this->command));
-    }
-
-    private function createHandler(): DeactivatePermissionHandler
-    {
-        return new DeactivatePermissionHandler($this->permissionServiceMock);
+        $this->assertNull($this->handler->handle($this->command));
     }
 
     /**
@@ -51,8 +52,6 @@ class DeactivatePermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willThrowException(PermissionException::notExistsById());
 
-        $handler = $this->createHandler();
-
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 }

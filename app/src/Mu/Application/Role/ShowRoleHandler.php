@@ -15,7 +15,7 @@ final class ShowRoleHandler
         $this->roleService = $roleService;
     }
 
-    public function handler(ShowRoleQuery $roleQuery): Role
+    public function handle(ShowRoleQuery $roleQuery): Role
     {
         return $this->roleService->byIdOrFail(
             new RoleId($roleQuery->roleId())

@@ -22,7 +22,7 @@ final class Show
 
     public function __invoke(string $id): JsonResponse
     {
-        $permission = $this->queryHandler->handler(
+        $permission = $this->queryHandler->handle(
             new ShowPermissionQuery($id)
         );
 

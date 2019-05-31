@@ -18,9 +18,13 @@ use PHPUnit\Framework\TestCase;
 class ChangeEmailHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|UserService
      */
     private $userServiceMock;
+    /**
+     * @var ChangeEmailHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -35,6 +39,8 @@ class ChangeEmailHandlerTest extends TestCase
                 'save'
             ])
             ->getMock();
+
+        $this->handler = new ChangeEmailHandler($this->userServiceMock);
     }
 
     public function testHandle()
@@ -42,14 +48,7 @@ class ChangeEmailHandlerTest extends TestCase
         $this->userServiceMock->method('validUserByEmailAndPassword')
             ->willReturn($this->createUser());
 
-        $handler = $this->createHandler();
-        $this->assertNull(
-            $handler->handle(new ChangeEmailCommand(
-                'email@mail.com',
-                '123456',
-                'newemail@mail.com'
-            ))
-        );
+        $this->assertNull($this->handler->handle($this->createCommand()));
     }
 
     private function createUser(
@@ -66,9 +65,10 @@ class ChangeEmailHandlerTest extends TestCase
         );
     }
 
-    private function createHandler(): ChangeEmailHandler
-    {
-        return new ChangeEmailHandler($this->userServiceMock);
+    private function createCommand(
+        string $newEmail = 'newemail@mail.com'
+    ): ChangeEmailCommand {
+        return new ChangeEmailCommand('email@mail.com', '123456', $newEmail);
     }
 
     /**
@@ -76,12 +76,7 @@ class ChangeEmailHandlerTest extends TestCase
      */
     public function testThrowNotChangeSameEmail()
     {
-        $handler = $this->createHandler();
-        $handler->handle(new ChangeEmailCommand(
-            'email@mail.com',
-            '123456',
-            'email@mail.com'
-        ));
+        $this->handler->handle($this->createCommand('email@mail.com'));
     }
 
     /**
@@ -92,12 +87,7 @@ class ChangeEmailHandlerTest extends TestCase
         $this->userServiceMock->method('validUserByEmailAndPassword')
             ->willThrowException(UserException::invalidUserOrPassword());
 
-        $handler = $this->createHandler();
-        $handler->handle(new ChangeEmailCommand(
-            'email@mail.com',
-            '123456',
-            'email@mail.com'
-        ));
+        $this->handler->handle($this->createCommand('email@mail.com'));
     }
 
     /**
@@ -113,11 +103,6 @@ class ChangeEmailHandlerTest extends TestCase
                 UserException::emailIsNotFree(new Email('newemail@mail.com'))
             );
 
-        $handler = $this->createHandler();
-        $handler->handle(new ChangeEmailCommand(
-            'email@mail.com',
-            '123456',
-            'newemail@mail.com'
-        ));
+        $this->handler->handle($this->createCommand());
     }
 }

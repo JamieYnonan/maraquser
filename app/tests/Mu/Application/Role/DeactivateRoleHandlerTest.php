@@ -11,10 +11,14 @@ use PHPUnit\Framework\TestCase;
 class DeactivateRoleHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|RoleService
      */
     private $roleServiceMock;
     private $command;
+    /**
+     * @var DeactivateRoleHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -27,18 +31,13 @@ class DeactivateRoleHandlerTest extends TestCase
             ->getMock();
 
         $this->command = new DeactivateRoleCommand((new RoleId())->value());
+
+        $this->handler = new DeactivateRoleHandler($this->roleServiceMock);
     }
 
     public function testHandlerOk()
     {
-        $handler = $this->createHandler();
-
-        $this->assertNull($handler->handler($this->command));
-    }
-
-    private function createHandler(): DeactivateRoleHandler
-    {
-        return new DeactivateRoleHandler($this->roleServiceMock);
+        $this->assertNull($this->handler->handler($this->command));
     }
 
     /**
@@ -49,7 +48,6 @@ class DeactivateRoleHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willThrowException(RoleException::notExists());
 
-        $handler = $this->createHandler();
-        $handler->handler($this->command);
+        $this->handler->handler($this->command);
     }
 }

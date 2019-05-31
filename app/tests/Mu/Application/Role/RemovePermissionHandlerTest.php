@@ -17,16 +17,20 @@ use PHPUnit\Framework\TestCase;
 class RemovePermissionHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|RoleService
      */
     private $roleServiceMock;
     /**
-     * @var MockObject
+     * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
     private $command;
     private $role;
     private $permission;
+    /**
+     * @var RemovePermissionHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -58,6 +62,11 @@ class RemovePermissionHandlerTest extends TestCase
             $this->role->id()->value(),
             $this->permission->id()->value()
         );
+
+        $this->handler = new RemovePermissionHandler(
+            $this->roleServiceMock,
+            $this->permissionServiceMock
+        );
     }
 
     public function testHandleOk()
@@ -68,17 +77,7 @@ class RemovePermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willReturn($this->permission);
 
-        $handler = $this->createHandler();
-
-        $this->assertNull($handler->handle($this->command));
-    }
-
-    private function createHandler(): RemovePermissionHandler
-    {
-        return new RemovePermissionHandler(
-            $this->roleServiceMock,
-            $this->permissionServiceMock
-        );
+        $this->assertNull($this->handler->handle($this->command));
     }
 
     /**
@@ -89,8 +88,7 @@ class RemovePermissionHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willThrowException(RoleException::notExists());
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 
     /**
@@ -104,7 +102,6 @@ class RemovePermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willThrowException(PermissionException::notExistsById());
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 }

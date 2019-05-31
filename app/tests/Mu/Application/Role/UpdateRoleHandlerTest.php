@@ -13,11 +13,15 @@ use PHPUnit\Framework\TestCase;
 class UpdateRoleHandlerTest extends TestCase
 {
     /**
-     * @var MockObject
+     * @var MockObject|RoleService
      */
     private $roleServiceMock;
     private $command;
     private $role;
+    /**
+     * @var UpdateRoleHandler
+     */
+    private $handler;
 
     public function setUp()
     {
@@ -40,6 +44,8 @@ class UpdateRoleHandlerTest extends TestCase
             $roleId->value(),
             'new-role'
         );
+
+        $this->handler = new UpdateRoleHandler($this->roleServiceMock);
     }
 
     public function testHandleOk()
@@ -47,14 +53,7 @@ class UpdateRoleHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willReturn($this->role);
 
-        $handler = $this->createHandler();
-
-        $this->assertNull($handler->handle($this->command));
-    }
-
-    private function createHandler(): UpdateRoleHandler
-    {
-        return new UpdateRoleHandler($this->roleServiceMock);
+        $this->assertNull($this->handler->handle($this->command));
     }
 
     /**
@@ -65,8 +64,7 @@ class UpdateRoleHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willThrowException(RoleException::notExists());
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 
     /**
@@ -82,7 +80,6 @@ class UpdateRoleHandlerTest extends TestCase
                 RoleException::alreadyExistsByName(new Name('new-role'))
             );
 
-        $handler = $this->createHandler();
-        $handler->handle($this->command);
+        $this->handler->handle($this->command);
     }
 }

@@ -15,7 +15,7 @@ final class ShowPermissionHandler
         $this->permissionService = $permissionService;
     }
 
-    public function handler(ShowPermissionQuery $permissionQuery): Permission
+    public function handle(ShowPermissionQuery $permissionQuery): Permission
     {
         return $this->permissionService->byIdOrFail(
             new PermissionId($permissionQuery->permissionId())
