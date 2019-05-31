@@ -3,9 +3,11 @@
 namespace Mu\Infrastructure\Notification\Rabbit;
 
 use Mu\Infrastructure\Notification\Notification;
+use Mu\Infrastructure\Notification\NotificationException;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use Throwable;
 
 abstract class BaseNotification implements Notification
 {
@@ -24,10 +26,8 @@ abstract class BaseNotification implements Notification
                 false,
                 false
             );
-        } catch (\Exception $e) {
-            throw new \RuntimeException(
-                sprintf('Invalid channel %s', $this->queue)
-            );
+        } catch (Throwable $e) {
+            throw NotificationException::byException($e);
         }
     }
 
