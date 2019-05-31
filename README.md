@@ -16,7 +16,7 @@ Project (in progress) to manage users roles and permissions.
 - Unit Testing (PHPUnit)
 - Mutation Testing (Infection)
 - Symfony Components
-- PHP ^7.1 (Xdebug)
+- PHP ^7.1 (+ Xdebug)
 - Python 3
 
 ## Up Project (local)
