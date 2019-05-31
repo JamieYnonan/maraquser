@@ -1,7 +1,8 @@
 build:
     root_path: './app'
 filter:
-    excluded_paths: [tests/*]
+    excluded_paths:
+        - "*/tests/*"
 
 checks:
     php:
