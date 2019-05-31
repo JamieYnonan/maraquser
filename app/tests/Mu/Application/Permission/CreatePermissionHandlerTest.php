@@ -15,7 +15,6 @@ class CreatePermissionHandlerTest extends TestCase
      * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
-    private $command;
     /**
      * @var CreatePermissionHandler
      */
