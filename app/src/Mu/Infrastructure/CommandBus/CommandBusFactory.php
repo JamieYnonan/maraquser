@@ -78,7 +78,6 @@ final class CommandBusFactory
         } catch (\Throwable $e) {
             throw CommandBusException::byException($e);
         }
-
     }
 
     private static function commandHanlderInMemoryLocation(

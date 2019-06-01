@@ -22,7 +22,6 @@ final class ExceptionHandler
             $response->setData($data);
 
             return $response->send();
-
         });
     }
 

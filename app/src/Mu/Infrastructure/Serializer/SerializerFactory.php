@@ -35,6 +35,5 @@ class SerializerFactory
         } catch (Throwable $e) {
             throw SerializerException::byException($e);
         }
-
     }
 }
