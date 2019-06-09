@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 final class Create
 {
     use Response;
+    use \Mu\Infrastructure\Api\Custom\Controllers\Request;
 
     private $commandBus;
     private $roleService;
@@ -33,7 +34,7 @@ final class Create
     public function __invoke(Request $request): JsonResponse
     {
         $id = Uuid::uuid4()->toString();
-        $dataRequest = json_decode($request->getContent(), true);
+        $dataRequest = $this->content($request);
 
         $this->commandBus->handle(
             new CreateRoleCommand(

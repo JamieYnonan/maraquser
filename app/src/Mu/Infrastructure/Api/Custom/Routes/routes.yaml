@@ -28,10 +28,15 @@ role_update:
     controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Update
     methods: [PUT]
 
-role_permissions:
-    path: /v1/roles/{id}
-    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Permission
+role_add_permission:
+    path: /v1/roles/{id}/permissions
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\AddPermission
     methods: [POST]
+
+role_remove_permission:
+    path: /v1/roles/{id}/permissions/{permissionId}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\RemovePermission
+    methods: [DELETE]
 
 role_delete:
     path: /v1/roles

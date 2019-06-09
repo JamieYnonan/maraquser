@@ -25,4 +25,9 @@ trait Response
     {
         return $this->response((object)$data);
     }
+
+    protected function responseEmpty(): JsonResponse
+    {
+        return new JsonResponse(null, 204);
+    }
 }

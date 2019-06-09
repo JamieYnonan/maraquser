@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Serializer;
 final class Update
 {
     use Response;
+    use \Mu\Infrastructure\Api\Custom\Controllers\Request;
 
     private $roleService;
     private $commandBus;
@@ -31,15 +32,15 @@ final class Update
 
     public function __invoke(Request $request, string $id): JsonResponse
     {
-        $dataRequest = json_decode($request->getContent(), true);
+        $dataRequest = $this->content($request);
 
-        $command = new UpdateRoleCommand(
-            $id,
-            $dataRequest['name'],
-            $dataRequest['description']
+        $this->commandBus->handle(
+            new UpdateRoleCommand(
+                $id,
+                $dataRequest['name'],
+                $dataRequest['description']
+            )
         );
-
-        $this->commandBus->handle($command);
 
         $role = $this->roleService->byIdOrFail(new RoleId($id));
 

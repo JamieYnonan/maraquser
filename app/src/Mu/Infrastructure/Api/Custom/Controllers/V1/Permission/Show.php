@@ -29,6 +29,8 @@ final class Show
             new ShowPermissionQuery($id)
         );
 
-        return $this->responseSingle($this->serializer->normalize($permission));
+        return $this->responseEmpty();
+
+        //return $this->responseSingle($this->serializer->normalize($permission));
     }
 }

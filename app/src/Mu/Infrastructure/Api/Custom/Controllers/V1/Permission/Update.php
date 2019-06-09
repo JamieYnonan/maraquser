@@ -6,14 +6,14 @@ use League\Tactician\CommandBus;
 use Mu\Application\Permission\UpdatePermissionCommand;
 use Mu\Domain\Model\Permission\PermissionId;
 use Mu\Domain\Model\Permission\PermissionService;
-use Mu\Infrastructure\Api\Custom\Controllers\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 
 final class Update
 {
-    use Response;
+    use \Mu\Infrastructure\Api\Custom\Controllers\Response;
+    use \Mu\Infrastructure\Api\Custom\Controllers\Request;
 
     private $commandBus;
     private $permissionService;
@@ -29,17 +29,17 @@ final class Update
         $this->serializer = $serializer;
     }
 
-    public function __invoke(Request $request, string $id): JsonResponse
+    public function __invoke(Request $request, string $id): Response
     {
-        $dataRequest = json_decode($request->getContent(), true);
+        $dataRequest = $this->content($request);
 
-        $command = new UpdatePermissionCommand(
-            $id,
-            $dataRequest['name'],
-            $dataRequest['description']
+        $this->commandBus->handle(
+            new UpdatePermissionCommand(
+                $id,
+                $dataRequest['name'],
+                $dataRequest['description']
+            )
         );
-
-        $this->commandBus->handle($command);
 
         $permission = $this->permissionService->byIdOrFail(
             new PermissionId($id)
