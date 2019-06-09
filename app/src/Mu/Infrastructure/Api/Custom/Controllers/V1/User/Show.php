@@ -4,11 +4,14 @@ namespace Mu\Infrastructure\Api\Custom\Controllers\V1\User;
 
 use Mu\Application\User\ShowUserHandler;
 use Mu\Application\User\ShowUserQuery;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Serializer;
 
 final class Show
 {
+    use Response;
+
     private $queryHandler;
     private $serializer;
 
@@ -26,7 +29,7 @@ final class Show
             new ShowUserQuery($id)
         );
 
-        return new JsonResponse(
+        return $this->responseSingle(
             $this->serializer->normalize($user, null, ['groups' => 'user_v1'])
         );
     }

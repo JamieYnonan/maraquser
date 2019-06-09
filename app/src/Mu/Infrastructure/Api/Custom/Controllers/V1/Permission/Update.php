@@ -6,12 +6,15 @@ use League\Tactician\CommandBus;
 use Mu\Application\Permission\UpdatePermissionCommand;
 use Mu\Domain\Model\Permission\PermissionId;
 use Mu\Domain\Model\Permission\PermissionService;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 
 final class Update
 {
+    use Response;
+
     private $commandBus;
     private $permissionService;
     private $serializer;
@@ -42,6 +45,6 @@ final class Update
             new PermissionId($id)
         );
 
-        return new JsonResponse($this->serializer->normalize($permission));
+        return $this->response($this->serializer->normalize($permission));
     }
 }

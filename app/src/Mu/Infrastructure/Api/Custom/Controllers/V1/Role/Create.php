@@ -6,6 +6,7 @@ use League\Tactician\CommandBus;
 use Mu\Application\Role\CreateRoleCommand;
 use Mu\Domain\Model\Role\RoleId;
 use Mu\Domain\Model\Role\RoleService;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,8 @@ use Symfony\Component\Serializer\Serializer;
 
 final class Create
 {
+    use Response;
+
     private $commandBus;
     private $roleService;
     private $serializer;
@@ -42,7 +45,7 @@ final class Create
 
         $role = $this->roleService->byIdOrFail(new RoleId($id));
 
-        return new JsonResponse(
+        return $this->responseCreated(
             $this->serializer->normalize($role, null, ['groups' => 'role_v1'])
         );
     }

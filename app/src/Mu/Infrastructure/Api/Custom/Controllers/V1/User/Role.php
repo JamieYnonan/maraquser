@@ -6,13 +6,15 @@ use League\Tactician\CommandBus;
 use Mu\Domain\Model\User\UserId;
 use Mu\Domain\Model\User\UserService;
 use Mu\Infrastructure\Api\Custom\Controllers\GetCommand;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 
-final class Patch
+final class Role
 {
     use GetCommand;
+    use Response;
 
     private $userService;
     private $commandBus;
@@ -37,7 +39,7 @@ final class Patch
 
         $user = $this->userService->byIdOrFail(new UserId($id));
 
-        return new JsonResponse(
+        return $this->responseSingle(
             $this->serializer->normalize($user, null, ['groups' => 'user_v1'])
         );
     }

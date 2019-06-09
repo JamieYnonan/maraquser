@@ -6,6 +6,7 @@ use League\Tactician\CommandBus;
 use Mu\Application\Permission\CreatePermissionCommand;
 use Mu\Domain\Model\Permission\PermissionId;
 use Mu\Domain\Model\Permission\PermissionService;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,8 @@ use Symfony\Component\Serializer\Serializer;
 
 final class Create
 {
+    use Response;
+
     private $commandBus;
     private $permissionService;
     private $serializer;
@@ -44,6 +47,6 @@ final class Create
             new PermissionId($id)
         );
 
-        return new JsonResponse($this->serializer->normalize($permission));
+        return $this->responseCreated($this->serializer->normalize($permission), 201);
     }
 }

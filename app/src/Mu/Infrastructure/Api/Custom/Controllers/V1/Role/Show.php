@@ -4,11 +4,14 @@ namespace Mu\Infrastructure\Api\Custom\Controllers\V1\Role;
 
 use Mu\Application\Role\ShowRoleQuery;
 use Mu\Application\Role\ShowRoleHandler;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Serializer;
 
 final class Show
 {
+    use Response;
+
     private $queryHandler;
     private $serializer;
 
@@ -26,7 +29,7 @@ final class Show
             new ShowRoleQuery($id)
         );
 
-        return new JsonResponse(
+        return $this->responseSingle(
             $this->serializer->normalize($role, null, ['groups' => 'role_v1'])
         );
     }

@@ -2,11 +2,11 @@
 
 namespace Mu\Infrastructure\Api\Custom\Controllers\V1\User;
 
-use Carbon\Carbon;
 use League\Tactician\CommandBus;
 use Mu\Application\User\SingInCommand;
 use Mu\Domain\Model\User\Email;
 use Mu\Domain\Model\User\UserService;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Mu\Infrastructure\Application\Authorization\Jwt\Authorization;
 use Mu\Infrastructure\Application\Authorization\Jwt\Payload;
 use Mu\Infrastructure\Application\Authorization\Jwt\Token;
@@ -16,6 +16,8 @@ use Symfony\Component\Serializer\Serializer;
 
 final class SingIn
 {
+    use Response;
+
     private $commandBus;
     private $userService;
     private $serializer;
@@ -50,10 +52,11 @@ final class SingIn
 
         $payload = Payload::byUser($user);
 
-        return new JsonResponse([
+        return $this->responseSingle([
             'type' => Authorization::TYPE,
             'token' => $this->token->encode($payload),
-            'expiresIn' => $payload->expiresAt() - (new \DateTime())->getTimestamp()
+            'expiresIn' => $payload->expiresAt()
+                - (new \DateTime())->getTimestamp()
         ]);
     }
 }

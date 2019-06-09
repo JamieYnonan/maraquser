@@ -28,9 +28,9 @@ role_update:
     controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Update
     methods: [PUT]
 
-role_patch:
+role_permissions:
     path: /v1/roles/{id}
-    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Patch
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\Role\Permission
     methods: [POST]
 
 role_delete:
@@ -48,12 +48,12 @@ user_show:
     controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Show
     methods: [GET]
 
-user_patch:
-    path: /v1/users/{id}
-    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Patch
-    methods: [PATCH]
-
 user_token:
     path: /v1/users/token
     controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\SingIn
+    methods: [POST]
+
+user_role:
+    path: /v1/users/{id}
+    controller: Mu\Infrastructure\Api\Custom\Controllers\V1\User\Role
     methods: [POST]

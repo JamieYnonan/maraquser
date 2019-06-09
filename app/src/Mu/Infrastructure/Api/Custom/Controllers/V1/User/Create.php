@@ -6,6 +6,7 @@ use League\Tactician\CommandBus;
 use Mu\Application\User\CreateUserCommand;
 use Mu\Domain\Model\User\UserId;
 use Mu\Domain\Model\User\UserService;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,8 @@ use Symfony\Component\Serializer\Serializer;
 
 final class Create
 {
+    use Response;
+
     private $commandBus;
     private $userService;
     private $serializer;
@@ -45,7 +48,7 @@ final class Create
 
         $user = $this->userService->byIdOrFail(new UserId($id));
 
-        return new JsonResponse(
+        return $this->responseCreated(
             $this->serializer->normalize($user, null, ['groups' => 'user_v1'])
         );
     }

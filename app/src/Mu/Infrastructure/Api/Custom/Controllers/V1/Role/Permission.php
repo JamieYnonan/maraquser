@@ -6,13 +6,15 @@ use League\Tactician\CommandBus;
 use Mu\Domain\Model\Role\RoleId;
 use Mu\Domain\Model\Role\RoleService;
 use Mu\Infrastructure\Api\Custom\Controllers\GetCommand;
+use Mu\Infrastructure\Api\Custom\Controllers\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 
-final class Patch
+final class Permission
 {
     use GetCommand;
+    use Response;
 
     private $roleService;
     private $commandBus;
@@ -37,7 +39,7 @@ final class Patch
 
         $role = $this->roleService->byIdOrFail(new RoleId($id));
 
-        return new JsonResponse(
+        return $this->responseSingle(
             $this->serializer->normalize($role, null, ['groups' => 'role_v1'])
         );
     }
