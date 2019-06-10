@@ -20,8 +20,7 @@ build_api_image_base: ## Build base api image: make build_api_image_base
     	--build-arg GID_LOCAL=${GID_LOCAL} \
 		-t ${API_IMAGE}:base docker/application
 
-build_api_image_dev: ## Build dev api image: make build_api_image_dev
-	@make build_api_image_base
+build_api_image_dev: build_api_image_base ## Build dev api image: make build_api_image_dev
 	docker build --force-rm \
 		--build-arg IMAGE=${API_IMAGE}:base \
 		--build-arg XDEBUG_HOST=${LOCAL_IP} \
@@ -71,19 +70,19 @@ console: ## Execute php console (cli image): make console COMMAND="command"
 		bash -c "php bin/console ${COMMAND}"
 
 routes: ## Show list routes: make routes
-	@make console COMMAND="debug:router"
+	$(MAKE) console COMMAND="debug:router"
 
 test: ## Execute tests: make test
 	if [ -d $$PWD/app/build ]; then \
 		rm -Rf $$PWD/app/build; \
 	fi
-	@make composer COMMAND=test
+	$(MAKE) composer COMMAND=test
 
 infection: ## Execute infection (composer infection): make infection
 	if [ ! -d $$PWD/app/build ]; then \
 		$(MAKE) test; \
 	fi
-	@make composer COMMAND=infection; \
+	$(MAKE) composer COMMAND=infection; \
 	rm -Rf $$PWD/app/var
 
 doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
@@ -94,6 +93,6 @@ doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
 
 ## Help ##
 help:
-	@printf "\033[31m%-16s %-70s %s\033[0m\n" "Target" "Help" "Usage"; \
-	printf "\033[31m%-16s %-70s %s\033[0m\n" "------" "----" "-----"; \
-	grep -hE '^\S+:.*## .*$$' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' | sort | awk 'BEGIN {FS = ":"}; {printf "\033[32m%-16s\033[0m %-69s \033[34m%s\033[0m\n", $$1, $$2, $$3}'
+	@printf "\033[31m%-25s %-50s %s\033[0m\n" "Target" "Help" "Usage"; \
+	printf "\033[31m%-25s %-50s %s\033[0m\n" "------" "----" "-----"; \
+	grep -hE '^\S+:.*## .*$$' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' | sort | awk 'BEGIN {FS = ":"}; {printf "\033[32m%-25s\033[0m %-49s \033[34m%s\033[0m\n", $$1, $$2, $$3}'
