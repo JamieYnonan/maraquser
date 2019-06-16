@@ -13,6 +13,7 @@ Project (in progress) to manage users roles and permissions.
 - Asynchrony (RabbitMQ)
 - Docker
 - Makefile
+- Swagger
 - Unit Testing (PHPUnit)
 - Mutation Testing (Infection)
 - Symfony Components
@@ -59,6 +60,10 @@ if the app/build dir doesn't exist, internally exec _make test_
 https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/tools.html
 
     make doctrine COMMAND="command"
+    
+## Api documentation with Swagger (in progress):
+
+    make swagger_api
     
 ## Makefile help:
     make help
