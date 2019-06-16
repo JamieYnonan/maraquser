@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: Maraquser
+  description: 'This is a RBAC project.'
+  contact:
+    name: Jamie Ynonan
+    email: jamiea31@gmail.com
+    url: https://github.com/JamieYnonan
+  license:
+    name: MIT
+    url: https://github.com/JamieYnonan/maraquser/blob/master/LICENSE
+  version: beta
+servers:
+  - url: http://{domain}/v1
+    description: The local API server
+    variables:
+      domain:
+        default: local.api.maraquser.maraquya.com
+tags:
+  - name: permission
+    description: An approval of a mode of access to a resource
+paths:
+  /permissions:
+    $ref: './paths/permissions.yaml'
+  /permissions/{permissionId}:
+    $ref: './paths/permissionsById.yaml'
+
+components:
+  schemas:
+    Permission:
+      $ref: './schemas/permission.yaml'
+    Response:
+      $ref: './schemas/response.yaml'

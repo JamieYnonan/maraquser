@@ -1,0 +1,11 @@
+post:
+  tags:
+    - permission
+  summary: Create a new Permission
+  operationId: create-permission
+  description: Returns a single Permission
+  requestBody:
+    $ref: '../requestBodies/permissionPostPut.yaml'
+  responses:
+    201:
+      $ref: '../responses/permission.yaml'

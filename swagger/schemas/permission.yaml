@@ -1,0 +1,21 @@
+type: object
+title: Permission
+properties:
+  id:
+    $ref: 'uuid.yaml'
+  name:
+    type: string
+    example: create-user
+  description:
+    type: string
+    example: You can create a new user.
+  status:
+    type: integer
+    enum:
+      - 0
+      - 1
+    example: 1
+    description: 0 is Inactive, 1 is Active
+  createdAt:
+    type: string
+    format: 'date-time'

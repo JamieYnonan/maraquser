@@ -13,6 +13,8 @@ CLI_IMAGE		= mu_cli
 WORKER_IMAGE	= mu_worker
 DOCKER_STACK	= maraquser
 
+SWAGGER_PORT	?= 8080
+
 build_api_image_base: ## Build base api image: make build_api_image_base
 	docker build --force-rm \
 		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
@@ -90,6 +92,13 @@ doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
 		--network container:$$(docker ps | grep ${DOCKER_STACK}_mysql | awk '{print $$1}') \
 		-v $$PWD/app:/app \
 		${CLI_IMAGE} bash -c "composer doctrine ${COMMAND}"
+
+swagger_api: ## Up swagger in http://localhost:{SWAGGER_PORT}: make swagger_api
+	docker run --rm -p ${SWAGGER_PORT}:8080 \
+		--name swagger-api \
+		-v $$PWD/swagger/:/usr/share/nginx/html/config/ \
+		-e URL="/config/swagger.yaml" swaggerapi/swagger-ui
+
 
 ## Help ##
 help:

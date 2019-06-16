@@ -1,0 +1,10 @@
+type: object
+required:
+  - message
+  - data
+properties:
+  message:
+    type: string
+    example: Ok.
+  data:
+    type: array

@@ -1,0 +1,35 @@
+put:
+  tags:
+    - permission
+  summary: Update a Permission
+  operationId: update-permission
+  description: Return a single Permission changed
+  parameters:
+    - name: permissionId
+      in: path
+      required: true
+      description: the permission identifier, as permissionId
+      schema:
+        $ref: '../schemas/uuid.yaml'
+  requestBody:
+    $ref: '../requestBodies/permissionPostPut.yaml'
+  responses:
+    200:
+      $ref: '../responses/permission.yaml'
+
+get:
+  tags:
+    - permission
+  summary: Show a Permission
+  operationId: show-permission
+  description: Return a single Permission
+  parameters:
+    - name: permissionId
+      in: path
+      required: true
+      description: the permission identifier, as permissionId
+      schema:
+        $ref: '../schemas/uuid.yaml'
+  responses:
+    200:
+      $ref: '../responses/permission.yaml'
