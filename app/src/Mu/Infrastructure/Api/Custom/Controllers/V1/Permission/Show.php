@@ -25,12 +25,8 @@ final class Show
 
     public function __invoke(string $id): JsonResponse
     {
-        $permission = $this->queryHandler->handle(
-            new ShowPermissionQuery($id)
-        );
+        $permission = $this->queryHandler->handle(new ShowPermissionQuery($id));
 
-        return $this->responseEmpty();
-
-        //return $this->responseSingle($this->serializer->normalize($permission));
+        return $this->responseSingle($this->serializer->normalize($permission));
     }
 }
