@@ -13,7 +13,7 @@ Project (in progress) to manage users roles and permissions.
 - Asynchrony (RabbitMQ)
 - Docker
 - Makefile
-- Swagger
+- Swagger (Api documentation)
 - Unit Testing (PHPUnit)
 - Mutation Testing (Infection)
 - Symfony Components
@@ -62,8 +62,12 @@ https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/tools.ht
     make doctrine COMMAND="command"
     
 ## Api documentation with Swagger (in progress):
+to view the documentation enter to http://localhost:8080
 
     make swagger_api
+    
+    #if you want to use another port (http://localhost:8888)
+    make swagger_api SWAGGER_PORT=8888
     
 ## Makefile help:
     make help
