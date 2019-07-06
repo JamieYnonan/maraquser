@@ -1,4 +1,4 @@
-required: tru
+required: true
 content:
   application/json:
     schema:
