@@ -2,7 +2,7 @@ type: object
 title: Permission
 properties:
   id:
-    $ref: 'uuid.yaml'
+    $ref: '../uuid.yaml'
   name:
     type: string
     example: create-user
@@ -18,4 +18,4 @@ properties:
     description: 0 is Inactive, 1 is Active
   createdAt:
     type: string
-    format: 'date-time'
+    format: '../date-time'

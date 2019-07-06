@@ -1,16 +1,17 @@
+required: tru
 content:
   application/json:
     schema:
       type: object
       properties:
         name:
-          description: Name of the Permission to create. Replace spaces with "-"
+          description: Name of the Permission. Replace spaces with "-"
           type: string
           minLength: 3
           maxLength: 50
           example: Create User
         description:
-          description: Description of the Permission to create
+          description: Description of the Permission
           type: string
           nullable: true
           example: You can create a new user.

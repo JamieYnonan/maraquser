@@ -2,4 +2,4 @@ description: Permission
 content:
   application/json:
     schema:
-      $ref: '../schemas/permissionResponse.yaml'
+      $ref: '../schemas/permission/permissionResponse.yaml'

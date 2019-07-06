@@ -10,12 +10,12 @@ put:
       required: true
       description: the permission identifier, as permissionId
       schema:
-        $ref: '../schemas/uuid.yaml'
+        $ref: '../../schemas/uuid.yaml'
   requestBody:
-    $ref: '../requestBodies/permissionPostPut.yaml'
+    $ref: '../../requestBodies/permissionPostPut.yaml'
   responses:
     200:
-      $ref: '../responses/permission.yaml'
+      $ref: '../../responses/permission.yaml'
 
 get:
   tags:
@@ -29,7 +29,7 @@ get:
       required: true
       description: the permission identifier, as permissionId
       schema:
-        $ref: '../schemas/uuid.yaml'
+        $ref: '../../schemas/uuid.yaml'
   responses:
     200:
-      $ref: '../responses/permission.yaml'
+      $ref: '../../responses/permission.yaml'

@@ -21,13 +21,13 @@ tags:
     description: An approval of a mode of access to a resource
 paths:
   /permissions:
-    $ref: './paths/permissions.yaml'
+    $ref: 'paths/permission/permissions.yaml'
   /permissions/{permissionId}:
-    $ref: './paths/permissionsById.yaml'
+    $ref: 'paths/permission/permissionsById.yaml'
 
 components:
   schemas:
     Permission:
-      $ref: './schemas/permission.yaml'
+      $ref: 'schemas/permission/permission.yaml'
     Response:
-      $ref: './schemas/response.yaml'
+      $ref: 'schemas/response.yaml'
