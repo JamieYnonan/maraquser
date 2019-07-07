@@ -1,0 +1,11 @@
+required: true
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        permissionId:
+          description: The permission identifier, as permissionId
+          $ref: '../../schemas/uuid.yaml'
+      required:
+        - permissionId

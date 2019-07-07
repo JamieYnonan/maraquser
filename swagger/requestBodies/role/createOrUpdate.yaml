@@ -1,0 +1,19 @@
+required: true
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        name:
+          description: Name of the Role. Replace spaces with "-"
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: admin
+        description:
+          description: Description of the Role
+          type: string
+          nullable: true
+          example: Administrator.
+      required:
+        - name

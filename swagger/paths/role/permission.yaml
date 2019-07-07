@@ -1,0 +1,22 @@
+post:
+  tags:
+    - role
+  summary: Associate a Permission to the Role
+  operationId: add-permission
+  description: Empty return
+  requestBody:
+    $ref: '../../requestBodies/role/permission.yaml'
+  responses:
+    204:
+      description: The Permission was associated.
+delete:
+  tags:
+    - role
+  summary: Disassociate a Permission from a Role
+  operationId: delete-permission
+  description: Empty return
+  requestBody:
+    $ref: '../../requestBodies/role/permission.yaml'
+  responses:
+    204:
+      description: The Permission was disassociated.

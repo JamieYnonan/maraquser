@@ -19,15 +19,25 @@ servers:
 tags:
   - name: permission
     description: An approval of a mode of access to a resource
+  - name: role
+    description: An approval of a mode of access to a resource
 paths:
   /permissions:
     $ref: 'paths/permission/permissions.yaml'
   /permissions/{permissionId}:
     $ref: 'paths/permission/permissionsById.yaml'
+  /roles:
+    $ref: 'paths/role/roles.yaml'
+  /roles/{roleId}:
+    $ref: 'paths/role/rolesById.yaml'
+  /roles/{roleId}/permissions:
+    $ref: 'paths/role/permission.yaml'
 
 components:
   schemas:
     Permission:
       $ref: 'schemas/permission/permission.yaml'
+    Role:
+      $ref: 'schemas/role/role.yaml'
     Response:
       $ref: 'schemas/response.yaml'

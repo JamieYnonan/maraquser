@@ -1,0 +1,11 @@
+post:
+  tags:
+    - role
+  summary: Create a new Role
+  operationId: create-role
+  description: Returns a single Role
+  requestBody:
+    $ref: '../../requestBodies/role/createOrUpdate.yaml'
+  responses:
+    201:
+      $ref: '../../responses/role.yaml'

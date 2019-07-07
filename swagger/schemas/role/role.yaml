@@ -1,0 +1,21 @@
+type: object
+title: Role
+properties:
+  id:
+    $ref: '../uuid.yaml'
+  name:
+    type: string
+    example: admin
+  description:
+    type: string
+    example: Administrator.
+  status:
+    type: integer
+    enum:
+      - 0
+      - 1
+    example: 1
+    description: 0 is Inactive, 1 is Active
+  createdAt:
+    type: string
+    format: '../date-time'

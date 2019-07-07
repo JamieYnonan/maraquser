@@ -1,0 +1,52 @@
+put:
+  tags:
+    - role
+  summary: Update a Role
+  operationId: update-role
+  description: Return a single Role changed
+  parameters:
+    - name: roleId
+      in: path
+      required: true
+      description: the role identifier, as roleId
+      schema:
+        $ref: '../../schemas/uuid.yaml'
+  requestBody:
+    $ref: '../../requestBodies/role/createOrUpdate.yaml'
+  responses:
+    200:
+      $ref: '../../responses/role.yaml'
+
+get:
+  tags:
+    - role
+  summary: Show a Role
+  operationId: show-role
+  description: Return a single Role
+  parameters:
+    - name: roleId
+      in: path
+      required: true
+      description: the role identifier, as roleId
+      schema:
+        $ref: '../../schemas/uuid.yaml'
+  responses:
+    200:
+      $ref: '../../responses/role.yaml'
+
+delete:
+  tags:
+    - role
+  summary: Delete a Role
+  operationId: delete-role
+  description: Return a single Role
+  parameters:
+    - name: roleId
+      in: path
+      required: true
+      description: the role identifier, as roleId
+      schema:
+        $ref: '../../schemas/uuid.yaml'
+  responses:
+    204:
+      description: The Role was deleted.
