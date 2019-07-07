@@ -12,7 +12,7 @@ put:
       schema:
         $ref: '../../schemas/uuid.yaml'
   requestBody:
-    $ref: '../../requestBodies/permissionPostPut.yaml'
+    $ref: '../../requestBodies/permission/createOrUpdate.yaml'
   responses:
     200:
       $ref: '../../responses/permission.yaml'

@@ -5,7 +5,7 @@ post:
   operationId: create-permission
   description: Returns a single Permission
   requestBody:
-    $ref: '../../requestBodies/permissionPostPut.yaml'
+    $ref: '../../requestBodies/permission/createOrUpdate.yaml'
   responses:
     201:
       $ref: '../../responses/permission.yaml'
