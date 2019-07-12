@@ -7,14 +7,10 @@ WORKDIR /workers
 RUN apt-get update
 RUN apt-get install iputils-ping -y
 
-ARG USERNAME_LOCAL
-ARG UID_LOCAL
-ARG GID_LOCAL
-RUN groupadd -g $GID_LOCAL $USERNAME_LOCAL
-RUN useradd -u $UID_LOCAL -g $GID_LOCAL $USERNAME_LOCAL
-
-ENV TZ=America/Lima
+ARG TZ
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt

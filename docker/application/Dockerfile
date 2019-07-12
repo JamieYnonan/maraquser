@@ -1,18 +1,12 @@
-FROM php:7.2-fpm
+FROM php:7.2-fpm-alpine
 
 MAINTAINER Jamie Ynonan <jamiea31@gmail.com>
 
-RUN apt-get update
-RUN apt-get install -y nginx
+RUN apk update && apk upgrade
+RUN apk add nginx
 RUN docker-php-ext-install bcmath json mbstring pdo pdo_mysql
 
-ARG USERNAME_LOCAL
-ARG UID_LOCAL
-ARG GID_LOCAL
-RUN groupadd -g $GID_LOCAL $USERNAME_LOCAL
-RUN useradd -u $UID_LOCAL -g $GID_LOCAL $USERNAME_LOCAL
-
-ENV TZ=America/Lima
+ARG TZ
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ADD config/www.conf /usr/local/etc/php-fpm.d/www.conf

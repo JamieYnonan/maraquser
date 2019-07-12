@@ -51,16 +51,14 @@ services:
     depends_on:
       - mysql
       - rabbit
-      - redis
 
   workers:
     image: mu_worker
     volumes:
       - ../workers/:/workers/:rw
-      - ./worker/wait-for-it.sh:/usr/local/bin/wait-for-it.sh
     depends_on:
       - rabbit
-    command: bash -c  "wait-for-it.sh maraquser_rabbit:15672 && python /workers/welcome.py"
+    command: bash -c "wait-for-it.sh maraquser_rabbit:15672 && python /workers/welcome.py"
     deploy:
       replicas: 2
       resources:

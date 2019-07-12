@@ -3,7 +3,8 @@ FROM $IMAGE
 
 MAINTAINER Jamie Ynonan <jamiea31@gmail.com>
 
-RUN apt-get update
+RUN apk update && apk upgrade
+RUN apk add --no-cache $PHPIZE_DEPS
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 

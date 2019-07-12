@@ -8,6 +8,8 @@ LOCAL_IP		= "$$(ip route get 8.8.4.4 | head -1 | awk '{print $$7}')"
 XDEBUG_PORT		= 9999
 XDEBUG_IDEKEY	= PHPSTORM
 
+TIME_ZONE		= America/Lima
+
 API_IMAGE		= mu_api
 CLI_IMAGE		= mu_cli
 WORKER_IMAGE	= mu_worker
@@ -17,9 +19,7 @@ SWAGGER_PORT	?= 8080
 
 build_api_image_base: ## Build base api image: make build_api_image_base
 	docker build --force-rm \
-		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
-    	--build-arg UID_LOCAL=${UID_LOCAL} \
-    	--build-arg GID_LOCAL=${GID_LOCAL} \
+		--build-arg TZ=${TIME_ZONE} \
 		-t ${API_IMAGE}:base docker/application
 
 build_api_image_dev: build_api_image_base ## Build dev api image: make build_api_image_dev
@@ -39,9 +39,7 @@ build_cli_image: ## Build cli image: make build_cli_image
 
 build_wk_image: ## Build worker image: make build_wk_image
 	docker build --force-rm \
-		--build-arg USERNAME_LOCAL=${USERNAME_LOCAL} \
-		--build-arg UID_LOCAL=${UID_LOCAL} \
-		--build-arg GID_LOCAL=${GID_LOCAL} \
+		--build-arg TZ=${TIME_ZONE} \
 		-t ${WORKER_IMAGE} docker/worker
 
 up_dev: ## Up application dev: make up_dev
@@ -64,12 +62,12 @@ service: ## List docker services: make service
 composer: ## Execute composer with cli image: make composer COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 		-v $$PWD/app:/app ${CLI_IMAGE} \
-		bash -c "composer ${COMMAND}"
+		sh -c "composer ${COMMAND}"
 
 console: ## Execute php console (cli image): make console COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 		-v $$PWD/app:/app ${CLI_IMAGE} \
-		bash -c "php bin/console ${COMMAND}"
+		sh -c "php bin/console ${COMMAND}"
 
 routes: ## Show list routes: make routes
 	$(MAKE) console COMMAND="debug:router"
@@ -91,7 +89,7 @@ doctrine: ## Execute docker (composer doctrine): make doctrine COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 		--network container:$$(docker ps | grep ${DOCKER_STACK}_mysql | awk '{print $$1}') \
 		-v $$PWD/app:/app \
-		${CLI_IMAGE} bash -c "composer doctrine ${COMMAND}"
+		${CLI_IMAGE} sh -c "composer doctrine ${COMMAND}"
 
 swagger_api: ## Up swagger in http://localhost:{SWAGGER_PORT}: make swagger_api
 	docker run --rm -p ${SWAGGER_PORT}:8080 \
