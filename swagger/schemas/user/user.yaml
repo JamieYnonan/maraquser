@@ -1,0 +1,25 @@
+type: object
+title: User
+properties:
+  id:
+    $ref: '../uuid.yaml'
+  name:
+    type: string
+    example: Mario
+  lastName:
+    type: string
+    example: Perez
+  email:
+    type: string
+    format: email
+  status:
+    type: integer
+    enum:
+      - 0
+      - 1
+    example: 1
+    description: 0 is Inactive, 1 is Active
+  updatedAt:
+    $ref: '../dateTime.yaml'
+  createdAt:
+    $ref: '../dateTime.yaml'

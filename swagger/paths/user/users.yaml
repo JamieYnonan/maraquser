@@ -1,0 +1,11 @@
+post:
+  tags:
+    - user
+  summary: Create a new User
+  operationId: create-user
+  description: Returns a single User
+  requestBody:
+    $ref: '../../requestBodies/user/create.yaml'
+  responses:
+    201:
+      $ref: '../../responses/user.yaml'

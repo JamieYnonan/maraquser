@@ -1,0 +1,27 @@
+required: true
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: Mario
+        lastName:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: Perez
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+        roleId:
+          description: Description of the Permission
+          $ref: '../../schemas/uuid.yaml'
+      required:
+        - name

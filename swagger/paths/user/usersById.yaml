@@ -1,0 +1,16 @@
+get:
+  tags:
+    - user
+  summary: Show an User
+  operationId: show-user
+  description: Return a single User
+  parameters:
+    - name: userId
+      in: path
+      required: true
+      description: the user identifier, as userId
+      schema:
+        $ref: '../../schemas/uuid.yaml'
+  responses:
+    200:
+      $ref: '../../responses/user.yaml'
