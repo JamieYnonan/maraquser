@@ -10,6 +10,10 @@ Mu\Domain\Model\User\User:
       groups: ['user_v1', 'notification', 'jwt']
     status:
       groups: ['user_v1']
+    updatedAt:
+      groups: ['user_v1']
+    createdAt:
+      groups: ['user_v1']
 
 Mu\Domain\Model\Role\Role:
   attributes:
