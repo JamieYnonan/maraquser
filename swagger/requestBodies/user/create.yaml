@@ -25,3 +25,7 @@ content:
           $ref: '../../schemas/uuid.yaml'
       required:
         - name
+        - lastName
+        - email
+        - password
+        - roleId
