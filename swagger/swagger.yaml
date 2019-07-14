@@ -38,6 +38,8 @@ paths:
     $ref: 'paths/user/users.yaml'
   /users/{userId}:
     $ref: 'paths/user/usersById.yaml'
+  /users/token:
+    $ref: 'paths/user/token.yaml'
 
 components:
   schemas:
@@ -47,5 +49,7 @@ components:
       $ref: 'schemas/role/role.yaml'
     User:
       $ref: 'schemas/user/user.yaml'
+    Token:
+      $ref: 'schemas/user/token.yaml'
     Response:
       $ref: 'schemas/response.yaml'

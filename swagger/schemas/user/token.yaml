@@ -1,0 +1,13 @@
+type: object
+title: Token
+properties:
+  type:
+    type: string
+    example: Bearer
+  token:
+    type: string
+    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U
+  expiresIn:
+    type: integer
+    example: 3600
+    description: Time in seconds for the token to expire

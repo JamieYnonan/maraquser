@@ -1,0 +1,10 @@
+post:
+  tags:
+    - user
+  summary: Create a Token
+  description: Returns a single Token
+  requestBody:
+    $ref: '../../requestBodies/user/singIn.yaml'
+  responses:
+    201:
+      $ref: '../../responses/token.yaml'

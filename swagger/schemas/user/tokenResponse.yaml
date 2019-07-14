@@ -1,0 +1,6 @@
+allOf:
+  - $ref: '../response.yaml'
+  - type: object
+    properties:
+      data:
+        $ref: 'token.yaml'
