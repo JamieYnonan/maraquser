@@ -1,0 +1,12 @@
+type: object
+title: ChangeEmail
+properties:
+  name:
+    type: string
+    format: email
+  newEmail:
+    type: string
+    format: email
+  password:
+    type: string
+    format: password

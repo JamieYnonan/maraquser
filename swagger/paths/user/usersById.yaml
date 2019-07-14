@@ -1,7 +1,7 @@
 get:
   tags:
     - user
-  summary: Show an User
+  summary: Show a User
   operationId: show-user
   description: Return a single User
   parameters:
@@ -11,6 +11,32 @@ get:
       description: the user identifier, as userId
       schema:
         $ref: '../../schemas/uuid.yaml'
+  responses:
+    200:
+      $ref: '../../responses/user.yaml'
+
+patch:
+  tags:
+    - user
+  summary: Change any User field
+  operationId: patch-user
+  description: Return a single User
+  parameters:
+    - name: Action
+      in: header
+      required: true
+      description: Action to call
+      schema:
+        type: string
+        enum: [ChangeEmail]
+    - name: userId
+      in: path
+      required: true
+      description: The User identifier, as userId
+      schema:
+        $ref: '../../schemas/uuid.yaml'
+  requestBody:
+    $ref: '../../requestBodies/user/patch.yaml'
   responses:
     200:
       $ref: '../../responses/user.yaml'

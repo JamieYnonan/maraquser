@@ -1,0 +1,12 @@
+required: true
+content:
+  application/json:
+    schema:
+      $ref: '../../schemas/user/changeEmailRequest.yaml'
+    examples:
+      ChangeEmail:
+        summary: Change my email
+        value:
+          email: myemail@example.com
+          newEmail: mynewemail@example.com
+          password: 123456
