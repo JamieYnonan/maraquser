@@ -29,6 +29,7 @@ final class Patch
         $this->commandBus = $commandBus;
         $this->serializer = $serializer;
         $this->baseNameSpace = 'Mu\Application\User';
+        $this->validActions = ['ChangeEmail'];
     }
 
     public function __invoke(Request $request, string $id): JsonResponse

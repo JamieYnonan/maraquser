@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 trait GetCommand
 {
     protected $baseNameSpace;
+    protected $validActions = [];
 
     protected function getCommand(Request $request, array $extraData = [])
     {
@@ -22,6 +23,17 @@ trait GetCommand
         );
     }
 
+    protected function isValidAction(string $action): bool
+    {
+        if (in_array($action, $this->validActions)) {
+            return true;
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf('The action %s is invalid.', $action)
+        );
+    }
+
     protected function getInstanceCommandByReflection(
         string $commandName,
         array $dataRequest
@@ -31,7 +43,7 @@ trait GetCommand
             $reflectionCommand = new \ReflectionClass($commandName);
         } catch (\ReflectionException $e) {
             throw new \InvalidArgumentException(
-                sprintf('Invalid Action %s', $commandName)
+                sprintf('The action %s not exists.', $commandName)
             );
         }
 
