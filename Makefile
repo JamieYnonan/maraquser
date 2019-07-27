@@ -4,11 +4,11 @@ USERNAME_LOCAL	= "$(shell whoami)"
 UID_LOCAL		= "$(shell id -u)"
 GID_LOCAL		= "$(shell id -g)"
 
-LOCAL_IP		= "$$(ip route get 8.8.4.4 | head -1 | awk '{print $$7}')"
-XDEBUG_PORT		= 9999
-XDEBUG_IDEKEY	= PHPSTORM
+LOCAL_IP		?= "$$(ip route get 8.8.4.4 | head -1 | awk '{print $$7}')"
+XDEBUG_PORT		?= 9999
+XDEBUG_IDEKEY	?= PHPSTORM
 
-TIME_ZONE		= America/Lima
+TIME_ZONE		?= America/Lima
 
 API_IMAGE		= mu_api
 CLI_IMAGE		= mu_cli
