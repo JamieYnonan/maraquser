@@ -91,6 +91,11 @@ swagger_api: ## Up swagger in http://localhost:{SWAGGER_PORT}: make swagger_api
 		-v $$PWD/swagger/:/usr/share/nginx/html/config/ \
 		-e URL="/config/swagger.yaml" swaggerapi/swagger-ui
 
+init_dev: build_cli_image build_api_image_dev build_wk_image
+	$(MAKE) composer COMMAND="install"; \
+    $(MAKE) up_dev; \
+    $(MAKE) doctrine COMMAND="orm:schema-tool:create";
+
 ## Help ##
 help:
 	@printf "\033[31m%-25s %-50s %s\033[0m\n" "Target" "Help" "Usage"; \

@@ -32,15 +32,7 @@ changes workers/config.json with real configs
 application app/config  
 infrastructure rename app/.env.example to app/.env
 
-    make build_cli_image
-    make build_api_image_dev
-    make build_wk_image
-    
-    make composer COMMAND="install"
-    
-    make up_dev
-    
-    make doctrine COMMAND="orm:schema-tool:create"
+    make init_dev
 
 ## Show routes:
     make routes
