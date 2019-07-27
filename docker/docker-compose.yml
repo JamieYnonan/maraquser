@@ -4,7 +4,7 @@ services:
   mysql:
     image: mysql:5.7
     volumes:
-      - ./mysql/data:/var/lib/mysql/
+      - mysql_data:/var/lib/mysql/
     environment:
       MYSQL_ROOT_PASSWORD: 123456
     ports:
@@ -28,7 +28,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=123456
       - RABBITMQ_DEFAULT_VHOST=maraquser
     volumes:
-      - ./rabbit/data:/var/lib/rabbitmq/
+      - rabbit_data:/var/lib/rabbitmq/
 
   api:
     image: ${API_IMAGE}
@@ -76,3 +76,7 @@ services:
 networks:
   api:
   worker:
+
+volumes:
+  mysql_data:
+  rabbit_data:
