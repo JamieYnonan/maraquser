@@ -46,10 +46,12 @@ class DeleteUserHandlerTest extends TestCase
 
     public function testHandler()
     {
+        $user = $this->createUser();
         $this->userServiceMock->method('byIdOrFail')
-            ->willReturn($this->createUser());
+            ->willReturn($user);
 
         $this->assertNull($this->handler->handle($this->command));
+        $this->assertTrue($user->isDeleted());
     }
 
     private function createUser(): User
