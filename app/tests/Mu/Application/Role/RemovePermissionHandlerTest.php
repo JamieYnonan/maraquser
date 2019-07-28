@@ -48,10 +48,7 @@ class RemovePermissionHandlerTest extends TestCase
             ->setMethods(['byIdOrFail'])
             ->getMock();
 
-        $this->role = new Role(
-            new RoleId(),
-            new Name('role')
-        );
+        $this->role = new Role(new RoleId(), new Name('role'));
 
         $this->permission = new Permission(
             new PermissionId(),
@@ -69,7 +66,7 @@ class RemovePermissionHandlerTest extends TestCase
         );
     }
 
-    public function testHandleOk()
+    public function testRemoveFromEmptyPermissionsOk()
     {
         $this->roleServiceMock->method('byIdOrFail')
             ->willReturn($this->role);
@@ -77,7 +74,23 @@ class RemovePermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willReturn($this->permission);
 
+        $this->assertCount(0, $this->role->permissions());
         $this->assertNull($this->handler->handle($this->command));
+        $this->assertCount(0, $this->role->permissions());
+    }
+
+    public function testRemoveOnePermissionOk()
+    {
+        $this->role->addPermission($this->permission);
+        $this->roleServiceMock->method('byIdOrFail')
+            ->willReturn($this->role);
+
+        $this->permissionServiceMock->method('byIdOrFail')
+            ->willReturn($this->permission);
+
+        $this->assertCount(1, $this->role->permissions());
+        $this->assertNull($this->handler->handle($this->command));
+        $this->assertCount(0, $this->role->permissions());
     }
 
     /**
