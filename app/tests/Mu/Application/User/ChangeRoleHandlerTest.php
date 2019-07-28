@@ -86,10 +86,12 @@ class ChangeRoleHandlerTest extends TestCase
         $this->userServiceMock->method('byIdOrFail')
             ->willReturn($this->user);
 
+        $newRole = $this->createRole('new-role');
         $this->roleServiceMock->method('byIdOrFail')
-            ->willReturn($this->createRole('new-role'));
+            ->willReturn($newRole);
 
         $this->assertNull($this->handler->handle($this->command));
+        $this->assertEquals($newRole, $this->user->role());
     }
 
     /**
