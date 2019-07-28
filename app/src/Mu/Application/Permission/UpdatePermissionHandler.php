@@ -25,8 +25,8 @@ final class UpdatePermissionHandler
         $name = new Name($command->name());
         if ($name->equals($permission->name()) === false) {
             $this->permissionService->notExistsNameOrFail($name);
+            $permission->changeName($name);
         }
-        $permission->changeName($name);
 
         $description = $command->description() === null
             ? null

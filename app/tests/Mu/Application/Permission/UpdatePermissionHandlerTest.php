@@ -2,6 +2,7 @@
 
 namespace Mu\Application\Permission;
 
+use Mu\Domain\Model\Permission\Description;
 use Mu\Domain\Model\Permission\Name;
 use Mu\Domain\Model\Permission\Permission;
 use Mu\Domain\Model\Permission\PermissionException;
@@ -16,7 +17,9 @@ class UpdatePermissionHandlerTest extends TestCase
      * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
-    private $command;
+    /**
+     * @var Permission
+     */
     private $permission;
     /**
      * @var UpdatePermissionHandler
@@ -33,16 +36,10 @@ class UpdatePermissionHandlerTest extends TestCase
             ->setMethods(['save', 'byIdOrFail', 'notExistsNameOrFail'])
             ->getMock();
 
-        $permissionId = new PermissionId();
-
         $this->permission = new Permission(
-            $permissionId,
-            new Name('name')
-        );
-
-        $this->command = new UpdatePermissionCommand(
-            $permissionId->value(),
-            'new-name'
+            new PermissionId(),
+            new Name('name'),
+            new Description('description')
         );
 
         $this->handler = new UpdatePermissionHandler(
@@ -50,12 +47,48 @@ class UpdatePermissionHandlerTest extends TestCase
         );
     }
 
-    public function testHandleOk()
+    public function testChangeNameDescription()
     {
         $this->permissionServiceMock->method('byIdOrFail')
             ->willReturn($this->permission);
 
-        $this->assertNull($this->handler->handle($this->command));
+        $command = $this->createCommand();
+
+        $this->assertNull($this->handler->handle($command));
+        $this->assertEquals(
+            $command->name(),
+            $this->permission->name()->value()
+        );
+        $this->assertEquals(
+            $command->description(),
+            $this->permission->description()->value()
+        );
+    }
+
+    private function createCommand(
+        string $name = 'new-name',
+        ?string $description = 'new description'
+    ): UpdatePermissionCommand {
+        return new UpdatePermissionCommand(
+            $this->permission->id()->value(),
+            $name,
+            $description
+        );
+    }
+
+    public function testNullDescription()
+    {
+        $this->permissionServiceMock->method('byIdOrFail')
+            ->willReturn($this->permission);
+
+        $command = $this->createCommand('name', null);
+
+        $this->assertNull($this->handler->handle($command));
+        $this->assertEquals(
+            $command->name(),
+            $this->permission->name()->value()
+        );
+        $this->assertNull($this->permission->description());
     }
 
     /**
@@ -66,7 +99,7 @@ class UpdatePermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willThrowException(PermissionException::notExistsById());
 
-        $this->handler->handle($this->command);
+        $this->handler->handle($this->createCommand());
     }
 
     /**
@@ -82,6 +115,6 @@ class UpdatePermissionHandlerTest extends TestCase
                 PermissionException::alreadyExistsByName(new Name('new-name'))
             );
 
-        $this->handler->handle($this->command);
+        $this->handler->handle($this->createCommand());
     }
 }
