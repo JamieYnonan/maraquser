@@ -2,6 +2,8 @@
 
 namespace Mu\Application\Permission;
 
+use Mu\Domain\Model\Permission\Name;
+use Mu\Domain\Model\Permission\Permission;
 use Mu\Domain\Model\Permission\PermissionException;
 use Mu\Domain\Model\Permission\PermissionId;
 use Mu\Domain\Model\Permission\PermissionService;
@@ -14,6 +16,7 @@ class DeactivatePermissionHandlerTest extends TestCase
      * @var MockObject|PermissionService
      */
     private $permissionServiceMock;
+    private $permission;
     private $command;
     /**
      * @var DeactivatePermissionHandler
@@ -30,6 +33,11 @@ class DeactivatePermissionHandlerTest extends TestCase
             ->setMethods(['save', 'byIdOrFail'])
             ->getMock();
 
+        $this->permission = new Permission(
+            new PermissionId(),
+            new Name('name')
+        );
+
         $this->command = new DeactivatePermissionCommand(
             (new PermissionId())->value()
         );
@@ -39,9 +47,14 @@ class DeactivatePermissionHandlerTest extends TestCase
         );
     }
 
-    public function testHandleOk()
+    public function testDeactivateOk()
     {
+        $this->permissionServiceMock->method('byIdOrFail')
+            ->willReturn($this->permission);
+
+        $this->assertTrue($this->permission->isActive());
         $this->assertNull($this->handler->handle($this->command));
+        $this->assertTrue($this->permission->isInactive());
     }
 
     /**
