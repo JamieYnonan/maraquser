@@ -77,7 +77,9 @@ class AddPermissionHandlerTest extends TestCase
         $this->permissionServiceMock->method('byIdOrFail')
             ->willReturn($this->permission);
 
+        $this->assertCount(0, $this->role->permissions());
         $this->assertNull($this->handler->handle($this->command));
+        $this->assertCount(1, $this->role->permissions());
     }
 
     /**
