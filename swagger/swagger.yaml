@@ -15,7 +15,7 @@ servers:
     description: The local API server
     variables:
       domain:
-        default: local.api.maraquser.maraquya.com
+        default: 127.0.0.1
 tags:
   - name: permission
     description: An approval of a mode of access to a resource
