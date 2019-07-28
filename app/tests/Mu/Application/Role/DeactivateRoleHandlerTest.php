@@ -2,6 +2,8 @@
 
 namespace Mu\Application\Role;
 
+use Mu\Domain\Model\Role\Name;
+use Mu\Domain\Model\Role\Role;
 use Mu\Domain\Model\Role\RoleException;
 use Mu\Domain\Model\Role\RoleId;
 use Mu\Domain\Model\Role\RoleService;
@@ -35,9 +37,16 @@ class DeactivateRoleHandlerTest extends TestCase
         $this->handler = new DeactivateRoleHandler($this->roleServiceMock);
     }
 
-    public function testHandlerOk()
+    public function testDeactivateOk()
     {
+        $role = new Role(new RoleId(), new Name('name'));
+
+        $this->roleServiceMock->method('byIdOrFail')
+            ->willReturn($role);
+
+        $this->assertTrue($role->isActive());
         $this->assertNull($this->handler->handler($this->command));
+        $this->assertTrue($role->isInactive());
     }
 
     /**
