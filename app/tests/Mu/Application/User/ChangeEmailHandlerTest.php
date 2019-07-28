@@ -43,12 +43,15 @@ class ChangeEmailHandlerTest extends TestCase
         $this->handler = new ChangeEmailHandler($this->userServiceMock);
     }
 
-    public function testHandle()
+    public function testChangeEmailOk()
     {
+        $user = $this->createUser();
         $this->userServiceMock->method('validUserByEmailAndPassword')
-            ->willReturn($this->createUser());
+            ->willReturn($user);
 
-        $this->assertNull($this->handler->handle($this->createCommand()));
+        $command = $this->createCommand();
+        $this->assertNull($this->handler->handle($command));
+        $this->assertEquals($command->newEmail(), $user->email()->value());
     }
 
     private function createUser(
