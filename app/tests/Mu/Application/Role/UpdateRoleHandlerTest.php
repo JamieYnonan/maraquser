@@ -2,6 +2,7 @@
 
 namespace Mu\Application\Role;
 
+use Mu\Domain\Model\Role\Description;
 use Mu\Domain\Model\Role\Name;
 use Mu\Domain\Model\Role\Role;
 use Mu\Domain\Model\Role\RoleException;
@@ -16,7 +17,9 @@ class UpdateRoleHandlerTest extends TestCase
      * @var MockObject|RoleService
      */
     private $roleServiceMock;
-    private $command;
+    /**
+     * @var Role
+     */
     private $role;
     /**
      * @var UpdateRoleHandler
@@ -37,23 +40,47 @@ class UpdateRoleHandlerTest extends TestCase
 
         $this->role = new Role(
             $roleId,
-            new Name('role')
-        );
-
-        $this->command = new UpdateRoleCommand(
-            $roleId->value(),
-            'new-role'
+            new Name('role'),
+            new Description('description')
         );
 
         $this->handler = new UpdateRoleHandler($this->roleServiceMock);
     }
 
-    public function testHandleOk()
+    public function testUpdateNameDescriptionOk()
     {
         $this->roleServiceMock->method('byIdOrFail')
             ->willReturn($this->role);
 
-        $this->assertNull($this->handler->handle($this->command));
+        $command = $this->createCommand();
+        $this->assertNull($this->handler->handle($command));
+        $this->assertEquals($command->name(), $this->role->name()->value());
+        $this->assertEquals(
+            $command->description(),
+            $this->role->description()->value()
+        );
+    }
+
+    private function createCommand(
+        string $name = 'new-role',
+        ?string $description = 'new-description'
+    ): UpdateRoleCommand {
+        return new UpdateRoleCommand(
+            $this->role->id()->value(),
+            $name,
+            $description
+        );
+    }
+
+    public function testNullDescriptionOk()
+    {
+        $this->roleServiceMock->method('byIdOrFail')
+            ->willReturn($this->role);
+
+        $command = $this->createCommand('name', null);
+        $this->assertNull($this->handler->handle($command));
+        $this->assertEquals($command->name(), $this->role->name()->value());
+        $this->assertNull($this->role->description());
     }
 
     /**
@@ -64,7 +91,7 @@ class UpdateRoleHandlerTest extends TestCase
         $this->roleServiceMock->method('byIdOrFail')
             ->willThrowException(RoleException::notExists());
 
-        $this->handler->handle($this->command);
+        $this->handler->handle($this->createCommand());
     }
 
     /**
@@ -80,6 +107,6 @@ class UpdateRoleHandlerTest extends TestCase
                 RoleException::alreadyExistsByName(new Name('new-role'))
             );
 
-        $this->handler->handle($this->command);
+        $this->handler->handle($this->createCommand());
     }
 }
