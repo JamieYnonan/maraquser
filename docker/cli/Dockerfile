@@ -3,10 +3,22 @@ FROM php:7.2-cli-alpine
 MAINTAINER jamiea31@gmail.com
 
 RUN apk update && apk upgrade
-RUN apk add --no-cache unzip $PHPIZE_DEPS
+RUN apk add \
+    autoconf \
+    g++ \
+    make \
+    unzip \
+    libsodium \
+    libsodium-dev \
+    libzip-dev
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
-RUN docker-php-ext-install bcmath pdo pdo_mysql
+RUN docker-php-ext-install \
+    bcmath \
+    pdo \
+    pdo_mysql \
+    sodium \
+    zip
 
 ARG USERNAME_LOCAL
 ARG UID_LOCAL

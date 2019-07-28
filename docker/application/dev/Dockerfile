@@ -4,7 +4,10 @@ FROM $IMAGE
 MAINTAINER Jamie Ynonan <jamiea31@gmail.com>
 
 RUN apk update && apk upgrade
-RUN apk add --no-cache $PHPIZE_DEPS
+RUN apk add \
+    autoconf \
+    g++ \
+    make
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
