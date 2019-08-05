@@ -7,4 +7,5 @@ out
 gen
 composer.phar
 *.iml
-.env
+.env*
+!.env.example
