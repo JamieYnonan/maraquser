@@ -7,6 +7,7 @@ use Mu\Application\Permission\CreatePermissionCommand;
 use Mu\Domain\Model\Permission\PermissionId;
 use Mu\Domain\Model\Permission\PermissionService;
 use Mu\Infrastructure\Api\Custom\Controllers\Response;
+use Mu\Infrastructure\Api\Custom\Controllers\RequestContent;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\Serializer\Serializer;
 final class Create
 {
     use Response;
-    use \Mu\Infrastructure\Api\Custom\Controllers\RequestContent;
+    use RequestContent;
 
     private $commandBus;
     private $permissionService;
@@ -48,9 +49,6 @@ final class Create
             new PermissionId($id)
         );
 
-        return $this->responseCreated(
-            $this->serializer->normalize($permission),
-            201
-        );
+        return $this->responseCreated($this->serializer->normalize($permission));
     }
 }
