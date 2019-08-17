@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 final class Update
 {
     use \Mu\Infrastructure\Api\Custom\Controllers\Response;
-    use \Mu\Infrastructure\Api\Custom\Controllers\Request;
+    use \Mu\Infrastructure\Api\Custom\Controllers\RequestContent;
 
     private $commandBus;
     private $permissionService;

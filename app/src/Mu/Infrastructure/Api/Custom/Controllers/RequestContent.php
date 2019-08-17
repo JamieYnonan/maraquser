@@ -2,11 +2,12 @@
 
 namespace Mu\Infrastructure\Api\Custom\Controllers;
 
-trait Request
+use Symfony\Component\HttpFoundation\Request;
+
+trait RequestContent
 {
-    public function content(
-        \Symfony\Component\HttpFoundation\Request $request
-    ): array {
+    public function content(Request $request): array
+    {
         return json_decode($request->getContent(), true);
     }
 }

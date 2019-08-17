@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 final class Create
 {
     use Response;
-    use \Mu\Infrastructure\Api\Custom\Controllers\Request;
+    use \Mu\Infrastructure\Api\Custom\Controllers\RequestContent;
 
     private $commandBus;
     private $permissionService;

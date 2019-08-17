@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Serializer;
 final class Update
 {
     use Response;
-    use \Mu\Infrastructure\Api\Custom\Controllers\Request;
+    use \Mu\Infrastructure\Api\Custom\Controllers\RequestContent;
 
     private $roleService;
     private $commandBus;
