@@ -9,7 +9,7 @@ use League\Event\GeneratorInterface;
  *
  * @package Mu\Domain
  */
-class DomainEventGenerator
+final class DomainEventGenerator
 {
     /**
      * @var GeneratorInterface
@@ -21,11 +21,11 @@ class DomainEventGenerator
      */
     public static function instance(): GeneratorInterface
     {
-        if (static::$generator === null) {
-            static::$generator = new Generator();
+        if (self::$generator === null) {
+            self::$generator = new Generator();
         }
 
-        return static::$generator;
+        return self::$generator;
     }
 
     public function __clone()
