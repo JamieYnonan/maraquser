@@ -42,7 +42,7 @@ class PasswordType extends Type
             return null;
         }
 
-        if ($value instanceof Password) {
+        if (Password instanceof $value) {
             return $value;
         }
 
@@ -66,8 +66,8 @@ class PasswordType extends Type
             return null;
         }
 
-        if ($value instanceof Password || Password::isHashedPassword($value)) {
-            return (string) $value;
+        if (Password instanceof $value) {
+            return $value->value();
         }
 
         throw ConversionException::conversionFailed($value, static::NAME);
