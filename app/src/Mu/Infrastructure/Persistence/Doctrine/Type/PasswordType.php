@@ -42,7 +42,7 @@ class PasswordType extends Type
             return null;
         }
 
-        if (Password instanceof $value) {
+        if ($value instanceof Password) {
             return $value;
         }
 
@@ -66,7 +66,7 @@ class PasswordType extends Type
             return null;
         }
 
-        if (Password instanceof $value) {
+        if ($value instanceof Password) {
             return $value->value();
         }
 
