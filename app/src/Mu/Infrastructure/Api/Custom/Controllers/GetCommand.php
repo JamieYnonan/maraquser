@@ -15,6 +15,7 @@ trait GetCommand
         $dataRequest = array_merge($dataRequest, $extraData);
 
         $action = $request->headers->get('Action');
+        $this->isValidAction($action);
         $commandName = $this->baseNameSpace.'\\'.$action.'Command';
 
         return $this->getInstanceCommandByReflection(
