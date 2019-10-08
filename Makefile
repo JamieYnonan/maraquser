@@ -54,12 +54,17 @@ service: ## List docker services: make service
 	docker service ls
 
 composer: ## Execute composer with cli image: make composer COMMAND="command"
+	docker run --rm -u ${UID_LOCAL}:${GID_LOCAL} \
+		-v $$PWD/app:/app ${CLI_IMAGE} \
+		sh -c "composer ${COMMAND}"
+
+composer_it: ## Execute composer (--it) with cli image: make composer COMMAND="command"
 	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
 		-v $$PWD/app:/app ${CLI_IMAGE} \
 		sh -c "composer ${COMMAND}"
 
 console: ## Execute php console (cli image): make console COMMAND="command"
-	docker run --rm -it -u ${UID_LOCAL}:${GID_LOCAL} \
+	docker run --rm -u ${UID_LOCAL}:${GID_LOCAL} \
 		-v $$PWD/app:/app ${CLI_IMAGE} \
 		sh -c "php bin/console ${COMMAND}"
 
