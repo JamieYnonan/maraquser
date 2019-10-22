@@ -13,8 +13,12 @@ node {
             sh 'make composer COMMAND="check-style"'
         }
 
-        stage('Unit Test') {
+        stage('Unit Testing') {
             sh 'make test'
+        }
+
+        stage('Mutation Testing') {
+            sh 'make infection'
         }
     } catch (exception) {
         echo '(TODO) send email fail!'
