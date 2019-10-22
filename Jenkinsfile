@@ -22,5 +22,6 @@ node {
         }
     } catch (exception) {
         echo '(TODO) send email fail!'
+        throw exception
     }
 }
