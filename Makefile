@@ -10,9 +10,10 @@ XDEBUG_IDEKEY	?= PHPSTORM
 
 TIME_ZONE		?= America/Lima
 
-API_IMAGE		= mu_api
-CLI_IMAGE		= mu_cli
-WORKER_IMAGE	= mu_worker
+API_IMAGE		= mu.api:0.1.0
+CLI_IMAGE		= mu-cli:0.1.0
+IMAGE_REPO		= jamieynonan
+WORKER_IMAGE	= mu-worker:0.1.0
 DOCKER_STACK	= maraquser
 
 SWAGGER_PORT	?= 8080
@@ -36,6 +37,14 @@ build_cli_image: ## Build cli image: make build_cli_image
 		--build-arg UID_LOCAL=${UID_LOCAL} \
 		--build-arg GID_LOCAL=${GID_LOCAL} \
 		-t ${CLI_IMAGE} docker/cli
+
+push_image: ## push image
+	docker login
+	docker tag ${IMAGE} ${IMAGE_REPO}/${IMAGE}
+	docker push ${IMAGE_REPO}/${IMAGE}
+
+push_cli_image: build_cli_image ## push cli image
+	$(MAKE) push_image IMAGE=${CLI_IMAGE}
 
 build_wk_image: ## Build worker image: make build_wk_image
 	docker build --force-rm \

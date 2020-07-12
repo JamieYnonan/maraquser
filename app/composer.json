@@ -13,6 +13,7 @@
     "require": {
         "php": "^7.1",
         "ext-json": "*",
+        "ext-bcmath": "*",
         "doctrine/dbal": "^2.9",
         "doctrine/orm": "^2.6",
         "firebase/php-jwt": "^4.0",

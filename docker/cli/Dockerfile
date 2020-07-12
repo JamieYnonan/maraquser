@@ -20,12 +20,6 @@ RUN docker-php-ext-install \
     sodium \
     zip
 
-ARG USERNAME_LOCAL
-ARG UID_LOCAL
-ARG GID_LOCAL
-RUN addgroup --gid $GID_LOCAL $USERNAME_LOCAL
-RUN adduser --ingroup $USERNAME_LOCAL --no-create-home --disabled-password --uid $UID_LOCAL $USERNAME_LOCAL
-
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
